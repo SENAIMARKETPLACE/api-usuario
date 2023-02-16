@@ -1,6 +1,6 @@
 CREATE TABLE enderecos(
 id INTEGER PRIMARY KEY AUTO_INCREMENT,
-idUsuario INTEGER,
+usuario_id INTEGER,
 cep char(8) NOT NULL,
 logradouro VARCHAR(100) NOT NULL,
 numero VARCHAR(6) NOT NULL,
