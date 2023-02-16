@@ -14,6 +14,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import br.com.senai.sollaris.domain.Usuario;
 import br.com.senai.sollaris.domain.repository.UsuarioRepository;
 import br.com.senai.sollaris.domain.resources.dtos.input.UsuarioDto;
+import br.com.senai.sollaris.domain.resources.service.exceptions.ObjetoNaoEncontradoException;
 
 /*
  * ELE É A COZINHA
@@ -38,7 +39,7 @@ public class UsuarioService {
 	}
 	
 	public Usuario listarUsuario(Long id) {
-		return usuarioRepository.findById(id).orElseThrow(() -> new RuntimeException("Usuário não encontrado")); 
+		return usuarioRepository.findById(id).orElseThrow(() -> new ObjetoNaoEncontradoException("Usuário não encontrado")); 
 		
 	}
 	

@@ -6,16 +6,19 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import br.com.senai.sollaris.domain.Usuario;
+import br.com.senai.sollaris.domain.resources.dtos.input.PutUsuarioDto;
 import br.com.senai.sollaris.domain.resources.dtos.input.UsuarioDto;
 import br.com.senai.sollaris.domain.resources.service.UsuarioService;
 
@@ -29,6 +32,7 @@ import br.com.senai.sollaris.domain.resources.service.UsuarioService;
 
 @RestController
 @RequestMapping("api/users")
+@CrossOrigin("http://localhost:3000")
 public class UsuarioController {
 	
 	@Autowired
@@ -40,14 +44,19 @@ public class UsuarioController {
 	}
 	
 	@GetMapping("/{id}")
-	public List<Usuario> listarUsuarios (@PathVariable Long id) {
-		return clienteService.listarUsuarios();
+	public Usuario listarUsuarios (@PathVariable Long id) {
+		return clienteService.listarUsuario(id);
 	}
 	
 	@PostMapping
 	public ResponseEntity<Usuario> cadastrarUsuario(@Valid @RequestBody UsuarioDto usuarioDto,
 			UriComponentsBuilder uriBuilder) {
 		return clienteService.cadastrarUsuario(usuarioDto, uriBuilder);
+	}
+	
+	@PutMapping("/{id}")
+	public void alterarUsuario(@PathVariable Long id, @RequestBody @Valid PutUsuarioDto usuarioDto) {
+		
 	}
 	
 	@DeleteMapping("/{id}")
