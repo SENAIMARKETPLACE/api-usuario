@@ -2,7 +2,6 @@ package br.com.senai.sollaris.domain.resources.dtos.input;
 
 import java.time.LocalDate;
 
-import javax.validation.Valid;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -37,7 +36,7 @@ public class UsuarioDto {
 	private String senha;
 	@NotBlank
 	private String telefone;
-	@NotNull
-	@Valid
-	private EnderecoDto endereco;
+//	@NotNull
+//	@Valid
+//	private EnderecoDto endereco;
 }

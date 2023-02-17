@@ -11,7 +11,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.validation.Valid;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
@@ -50,7 +49,7 @@ public class Usuario {
 		this.email = usuarioDto.getEmail();
 		this.senha = usuarioDto.getSenha();
 		this.telefone = usuarioDto.getTelefone();
-		this.enderecos.add(new Endereco(usuarioDto.getEndereco()));
+//		this.enderecos.add(new Endereco(usuarioDto.getEndereco()));
 	}
 
 	public void atualizarInformacoes(Long id, PutUsuarioDto usuarioDto) {
