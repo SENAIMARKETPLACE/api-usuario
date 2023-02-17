@@ -1,5 +1,5 @@
 package br.com.senai.sollaris.domain.resources.dtos.output;
 
-public class ReturnEmpresaDto {
+public class ReturnUsuarioDto {
 
 }

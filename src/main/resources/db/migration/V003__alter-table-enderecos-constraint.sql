@@ -1,4 +1,4 @@
 ALTER TABLE enderecos 
 	ADD constraint fk_endereco_usuario 
-		FOREIGN KEY (idUsuario) 
+		FOREIGN KEY (usuario_id) 
 			references usuarios(id);
