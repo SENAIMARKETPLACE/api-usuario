@@ -11,9 +11,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.Valid;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
+import br.com.senai.sollaris.domain.resources.dtos.input.PutUsuarioDto;
 import br.com.senai.sollaris.domain.resources.dtos.input.UsuarioDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -27,8 +29,6 @@ import lombok.Setter;
 @Table(name = "usuarios")
 public class Usuario {
 	
-	
-
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String nome;
@@ -51,5 +51,14 @@ public class Usuario {
 		this.senha = usuarioDto.getSenha();
 		this.telefone = usuarioDto.getTelefone();
 		this.enderecos.add(new Endereco(usuarioDto.getEndereco()));
+	}
+
+	public void atualizarInformacoes(Long id, PutUsuarioDto usuarioDto) {
+		this.id = id;
+		this.nome = usuarioDto.getNome();
+		this.email = usuarioDto.getEmail();
+		this.senha = usuarioDto.getSenha();
+		this.telefone = usuarioDto.getTelefone();
+		
 	}
 }

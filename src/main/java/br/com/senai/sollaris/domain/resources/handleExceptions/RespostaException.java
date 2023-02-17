@@ -6,6 +6,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
@@ -35,6 +36,13 @@ public class RespostaException {
 		this.recurso = requestPath.getRequestURI();
 		this.Url = requestPath.getRequestURL();
 		this.dataRequisicao = LocalDateTime.now();
+	}
+
+	public RespostaException(HttpStatus status, List<Campo> campos) {
+		this.titulo = "Campos inválidos, tente novamente";
+		this.status = status.value();
+		this.dataRequisicao = LocalDateTime.now();
+		this.campos = campos;
 	}
 	
 	

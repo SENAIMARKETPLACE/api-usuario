@@ -13,6 +13,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import br.com.senai.sollaris.domain.Usuario;
 import br.com.senai.sollaris.domain.repository.UsuarioRepository;
+import br.com.senai.sollaris.domain.resources.dtos.input.PutUsuarioDto;
 import br.com.senai.sollaris.domain.resources.dtos.input.UsuarioDto;
 import br.com.senai.sollaris.domain.resources.service.exceptions.ObjetoNaoEncontradoException;
 
@@ -54,8 +55,12 @@ public class UsuarioService {
 	}
 	
 	@Transactional
-	public void alterarUsuario() {
+	public ResponseEntity<Object> alterarUsuario(Long id, @Valid PutUsuarioDto usuarioDto) {
+		Usuario usuario = buscarUsuario(id);
 		
+		usuario.atualizarInformacoes(id, usuarioDto);
+		
+		return ResponseEntity.ok(usuario);
 	}
 	
 	@Transactional
@@ -67,6 +72,10 @@ public class UsuarioService {
 		}
 		
 		return ResponseEntity.notFound().build();
+	}
+	
+	private Usuario buscarUsuario(Long id) {
+		return usuarioRepository.findById(id).orElseThrow(() -> new ObjetoNaoEncontradoException("Usuário não encontrado")); 
 	}
 	
 }
