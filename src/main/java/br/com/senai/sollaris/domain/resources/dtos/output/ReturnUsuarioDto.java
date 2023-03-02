@@ -14,8 +14,6 @@ import lombok.Setter;
 @AllArgsConstructor 
 @NoArgsConstructor
 public class ReturnUsuarioDto {
-	
-
 	private Long id;
 	private String nome;
 	private Generos genero;
@@ -29,3 +27,5 @@ public class ReturnUsuarioDto {
 		this.img = usuario.getImg();
 	}
 }
+	
+

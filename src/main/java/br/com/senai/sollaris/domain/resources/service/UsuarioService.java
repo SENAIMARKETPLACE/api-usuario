@@ -15,6 +15,7 @@ import br.com.senai.sollaris.domain.Usuario;
 import br.com.senai.sollaris.domain.repository.UsuarioRepository;
 import br.com.senai.sollaris.domain.resources.dtos.input.PutUsuarioDto;
 import br.com.senai.sollaris.domain.resources.dtos.input.UsuarioDto;
+
 import br.com.senai.sollaris.domain.resources.dtos.output.ReturnUsuarioDto;
 import br.com.senai.sollaris.domain.resources.service.exceptions.EmailEmUsoException;
 import br.com.senai.sollaris.domain.resources.service.exceptions.ObjetoNaoEncontradoException;
@@ -36,7 +37,7 @@ public class UsuarioService {
 	@Autowired
 	private UsuarioRepository usuarioRepository;
 	
-	public List<ReturnUsuarioDto> listarUsuarios() {
+		public List<ReturnUsuarioDto> listarUsuarios() {
 		return usuarioRepository.findAll()
 				.stream()
 				.map(usuario -> new ReturnUsuarioDto(usuario))
@@ -48,7 +49,6 @@ public class UsuarioService {
 		return usuarioRepository.findById(id)
 				.map(usuario -> new ReturnUsuarioDto(usuario))
 				.orElseThrow(() -> new ObjetoNaoEncontradoException("Usuário não encontrado")); 
-				
 		
 	}
 	
@@ -62,11 +62,14 @@ public class UsuarioService {
 		
 		URI uri = uriBuilder.path("/api/users/{id}").buildAndExpand(usuario.getId()).toUri();
 		return ResponseEntity.created(uri).body(new ReturnUsuarioDto(usuario));
+
 	}
 	
 	@Transactional
 	public ResponseEntity<Object> alterarUsuario(Long id, @Valid PutUsuarioDto usuarioDto) {
+
 		validarEmail(usuarioDto);
+
 		Usuario usuario = buscarUsuario(id);
 		
 		usuario.atualizarInformacoes(id, usuarioDto);
@@ -74,8 +77,6 @@ public class UsuarioService {
 		return ResponseEntity.ok(usuario);
 	}
 	
-
-
 	@Transactional
 	public ResponseEntity<Object> deletarUsuario(Long id) {
 		if(usuarioRepository.existsById(id)) {
@@ -109,4 +110,5 @@ public class UsuarioService {
 					throw new EmailEmUsoException("Email em uso, tente novamente!");
 		
 	}
+
 }

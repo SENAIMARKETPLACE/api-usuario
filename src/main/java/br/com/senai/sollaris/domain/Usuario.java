@@ -34,7 +34,6 @@ public class Usuario {
 	private Long id;
 	private String nome;
 	private String cpf;
-	
 	private LocalDate dt_nascimento;
 	private String email;
 	private String senha;
@@ -74,15 +73,14 @@ public class Usuario {
 		
 		if (usuarioDto.getTelefone() != null)
 			this.telefone = usuarioDto.getTelefone();
-		
-		
 	}
 
-	//Construtor usado para validação de email para alterar
 	public Usuario(PutUsuarioDto usuarioDto) {
 		this.nome = usuarioDto.getNome();
 		this.email = usuarioDto.getEmail();
 		this.senha = usuarioDto.getSenha();
 		this.telefone = usuarioDto.getTelefone();
 	}
+
+
 }

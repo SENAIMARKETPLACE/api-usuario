@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import br.com.senai.sollaris.domain.Usuario;
 import br.com.senai.sollaris.domain.resources.dtos.input.PutUsuarioDto;
 import br.com.senai.sollaris.domain.resources.dtos.input.UsuarioDto;
 import br.com.senai.sollaris.domain.resources.dtos.output.ReturnUsuarioDto;
@@ -51,9 +50,10 @@ public class UsuarioController {
 	
 	@PostMapping
 	public ResponseEntity<ReturnUsuarioDto> cadastrarUsuario(@Valid @RequestBody UsuarioDto usuarioDto,
-			UriComponentsBuilder uriBuilder) {
+			UriComponentsBuilder uriBuilder){
 		return clienteService.cadastrarUsuario(usuarioDto, uriBuilder);
 	}
+	
 	
 	@PutMapping("/{id}")
 	public ResponseEntity<Object> alterarUsuario(@PathVariable Long id, @RequestBody @Valid PutUsuarioDto usuarioDto) {

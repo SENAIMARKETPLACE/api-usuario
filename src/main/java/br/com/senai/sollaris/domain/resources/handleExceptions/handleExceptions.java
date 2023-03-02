@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import br.com.senai.sollaris.domain.resources.service.exceptions.EmailEmUsoException;
 import br.com.senai.sollaris.domain.resources.service.exceptions.ObjetoNaoEncontradoException;
 
 /*
@@ -33,10 +34,6 @@ public class handleExceptions extends ResponseEntityExceptionHandler{
 	@Autowired
 	private MessageSource messageSource;
 	
-	
-	/*
-	 * 
-	 */
 	@Override
 	protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
 			HttpHeaders headers, HttpStatus status, WebRequest request) {
@@ -59,12 +56,21 @@ public class handleExceptions extends ResponseEntityExceptionHandler{
 		return handleExceptionInternal(ex, respostaException, headers, status, request);
 	}
 	
-	
-	
 	@ExceptionHandler(ObjetoNaoEncontradoException.class)
 	public ResponseEntity<Object> ObjetoNaoEncontrado(ObjetoNaoEncontradoException ex, 
 			HttpServletRequest requestPath, WebRequest request){
 		HttpStatus status = HttpStatus.NOT_FOUND;
+		RespostaException resposta = new RespostaException(ex, status, requestPath);
+		
+		return handleExceptionInternal(ex, resposta, new HttpHeaders(), status, request);
+		
+		
+	}
+	
+	@ExceptionHandler(EmailEmUsoException.class)
+	public ResponseEntity<Object> ObjetoNaoEncontrado(EmailEmUsoException ex, 
+			HttpServletRequest requestPath, WebRequest request){
+		HttpStatus status = HttpStatus.BAD_REQUEST;
 		RespostaException resposta = new RespostaException(ex, status, requestPath);
 		
 		return handleExceptionInternal(ex, resposta, new HttpHeaders(), status, request);
