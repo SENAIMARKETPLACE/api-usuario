@@ -6,6 +6,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import br.com.senai.sollaris.domain.Generos;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -36,7 +37,10 @@ public class UsuarioDto {
 	private String senha;
 	@NotBlank
 	private String telefone;
-//	@NotNull
-//	@Valid
-//	private EnderecoDto endereco;
+	@NotNull
+	private Generos genero;
+	@NotBlank
+	private String img;
+	@NotBlank
+	private String gruposDeInteresse;
 }

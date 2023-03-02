@@ -20,12 +20,23 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 import br.com.senai.sollaris.domain.resources.service.exceptions.ObjetoNaoEncontradoException;
 
+/*
+ * ControllerAdvice = Fala para o Spring que essa clase ela trata os erros
+ * ResponseEntityException = É O PADRÃO DE RESPOSTA PARA COISAS NEGATIVAS (ERROS)
+ */
+
 @ControllerAdvice
 public class handleExceptions extends ResponseEntityExceptionHandler{
 	
+	
+	//Ele pega as mensagem dos erros
 	@Autowired
 	private MessageSource messageSource;
 	
+	
+	/*
+	 * 
+	 */
 	@Override
 	protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
 			HttpHeaders headers, HttpStatus status, WebRequest request) {
@@ -47,6 +58,8 @@ public class handleExceptions extends ResponseEntityExceptionHandler{
 		
 		return handleExceptionInternal(ex, respostaException, headers, status, request);
 	}
+	
+	
 	
 	@ExceptionHandler(ObjetoNaoEncontradoException.class)
 	public ResponseEntity<Object> ObjetoNaoEncontrado(ObjetoNaoEncontradoException ex, 

@@ -6,6 +6,8 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -38,6 +40,10 @@ public class Usuario {
 	private String senha;
 	private String telefone;
 	
+	@Enumerated(EnumType.STRING)
+	private Generos genero;
+	private String img;
+	
 	@JsonManagedReference
 	@OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
 	private List<Endereco> enderecos = new ArrayList<>();
@@ -49,15 +55,34 @@ public class Usuario {
 		this.email = usuarioDto.getEmail();
 		this.senha = usuarioDto.getSenha();
 		this.telefone = usuarioDto.getTelefone();
-//		this.enderecos.add(new Endereco(usuarioDto.getEndereco()));
+		this.genero = usuarioDto.getGenero();
+		this.img = usuarioDto.getImg();
 	}
-
+	
+	//metodo usado para atualizar um Usuário
 	public void atualizarInformacoes(Long id, PutUsuarioDto usuarioDto) {
 		this.id = id;
+		
+		if (usuarioDto.getNome() != null)
+			this.nome = usuarioDto.getNome();
+		
+		if (usuarioDto.getEmail() != null)
+			this.email = usuarioDto.getEmail();
+		
+		if (usuarioDto.getSenha() != null)
+			this.senha = usuarioDto.getSenha();
+		
+		if (usuarioDto.getTelefone() != null)
+			this.telefone = usuarioDto.getTelefone();
+		
+		
+	}
+
+	//Construtor usado para validação de email para alterar
+	public Usuario(PutUsuarioDto usuarioDto) {
 		this.nome = usuarioDto.getNome();
 		this.email = usuarioDto.getEmail();
 		this.senha = usuarioDto.getSenha();
 		this.telefone = usuarioDto.getTelefone();
-		
 	}
 }
