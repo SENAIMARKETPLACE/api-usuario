@@ -17,6 +17,7 @@ import br.com.senai.sollaris.domain.resources.dtos.input.PutUsuarioDto;
 import br.com.senai.sollaris.domain.resources.dtos.input.UsuarioDto;
 
 import br.com.senai.sollaris.domain.resources.dtos.output.ReturnUsuarioDto;
+import br.com.senai.sollaris.domain.resources.dtos.output.ReturnUsuarioPut;
 import br.com.senai.sollaris.domain.resources.service.exceptions.EmailEmUsoException;
 import br.com.senai.sollaris.domain.resources.service.exceptions.ObjetoNaoEncontradoException;
 
@@ -66,7 +67,7 @@ public class UsuarioService {
 	}
 	
 	@Transactional
-	public ResponseEntity<Object> alterarUsuario(Long id, @Valid PutUsuarioDto usuarioDto) {
+	public ResponseEntity<ReturnUsuarioPut> alterarUsuario(Long id, @Valid PutUsuarioDto usuarioDto) {
 
 		validarEmail(usuarioDto);
 
@@ -74,7 +75,7 @@ public class UsuarioService {
 		
 		usuario.atualizarInformacoes(id, usuarioDto);
 		
-		return ResponseEntity.ok(usuario);
+		return ResponseEntity.ok(new ReturnUsuarioPut(usuario));
 	}
 	
 	@Transactional

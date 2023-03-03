@@ -6,6 +6,8 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.validator.constraints.br.CPF;
+
 import br.com.senai.sollaris.domain.Generos;
 
 import lombok.AllArgsConstructor;
@@ -28,6 +30,7 @@ public class UsuarioDto {
 	@NotBlank
 	private String nome;
 	@NotBlank
+	@CPF
 	private String cpf;
 	@NotNull
 	private LocalDate dt_nascimento;
