@@ -46,7 +46,7 @@ public class UsuarioController {
 	
 	@GetMapping("/{id}")
 	public ResponseEntity<ReturnUsuarioDto> listarUsuarios (@PathVariable Long id) {
-		return ResponseEntity.ok(clienteService.listarUsuario(id));
+		return ResponseEntity.ok(new ReturnUsuarioDto(clienteService.listarUsuario(id)));
 	}
 	
 	@PostMapping

@@ -7,8 +7,6 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-
 import br.com.senai.sollaris.domain.resources.dtos.input.EnderecoDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -27,8 +25,7 @@ public class Endereco {
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@JsonBackReference
-	@ManyToOne
+	@ManyToOne()
 	private Usuario usuario;
 	
 	private String cep;

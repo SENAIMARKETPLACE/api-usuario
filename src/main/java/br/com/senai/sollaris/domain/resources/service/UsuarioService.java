@@ -46,9 +46,8 @@ public class UsuarioService {
 		
 	}
 	
-	public ReturnUsuarioDto listarUsuario(Long id) {
+	public Usuario listarUsuario(Long id) {
 		return usuarioRepository.findById(id)
-				.map(usuario -> new ReturnUsuarioDto(usuario))
 				.orElseThrow(() -> new ObjetoNaoEncontradoException("Usuário não encontrado")); 
 		
 	}

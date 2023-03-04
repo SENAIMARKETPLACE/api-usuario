@@ -14,5 +14,5 @@ import lombok.Setter;
 public class UsuarioDtoId {
 	
 	@NotNull
-	private Integer id;
+	private Long id;
 }
