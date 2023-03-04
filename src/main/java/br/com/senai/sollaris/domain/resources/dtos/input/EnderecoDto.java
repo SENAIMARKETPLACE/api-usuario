@@ -1,7 +1,10 @@
 package br.com.senai.sollaris.domain.resources.dtos.input;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import javax.validation.groups.ConvertGroup;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -16,6 +19,11 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class EnderecoDto {
+	
+	@NotNull
+	@Valid
+	private UsuarioDtoId usuario;
+	
 	@NotBlank
 	@Size(min = 8 ,max = 8)
 	private String cep;

@@ -27,6 +27,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UsuarioDto {
+	
 	@NotBlank
 	private String nome;
 	@NotBlank
