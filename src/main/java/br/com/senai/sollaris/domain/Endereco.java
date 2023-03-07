@@ -1,9 +1,13 @@
 package br.com.senai.sollaris.domain;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -13,21 +17,22 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-
-@Getter @Setter
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table (name = "enderecos")
+@Table(name = "enderecos")
 public class Endereco {
-	
-	
-	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
-	@ManyToOne()
+
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@JoinColumn(name = "usuario_id", foreignKey = @ForeignKey(foreignKeyDefinition = "fk_endereco_usuario", name = "usuario_id"))
 	private Usuario usuario;
-	
+
 	private String cep;
 	private String logradouro;
 	private String numero;
@@ -35,7 +40,7 @@ public class Endereco {
 	private String bairro;
 	private String cidade;
 	private String complemento;
-	
+
 	public Endereco(EnderecoDto enderecoDto) {
 		this.cep = enderecoDto.getCep();
 		this.logradouro = enderecoDto.getLogradouro();

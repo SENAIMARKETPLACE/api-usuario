@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import br.com.senai.sollaris.domain.Endereco;
 import br.com.senai.sollaris.domain.Usuario;
 import br.com.senai.sollaris.domain.repository.EnderecoRepository;
 import br.com.senai.sollaris.domain.resources.dtos.input.EnderecoDto;
@@ -29,8 +28,8 @@ public class EnderecoService {
 			UriComponentsBuilder uriBuilder) {
 		//Estou validando o id inserido no Usuario se existe
 		Usuario usuario = usuarioService.listarUsuario(endereco.getUsuario().getId());
-		//Caso exista eu salvo os dados na tabela de enderecos
-		enderecoRepository.save(new Endereco(endereco));
+		usuario.adicionarEndereco(endereco);
+		
 		
 		URI uri = uriBuilder.path("api/address/{id}").buildAndExpand(usuario.getId()).toUri();
 		ReturnUsuarioDto usuarioDto = new ReturnUsuarioDto(usuario);

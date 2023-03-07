@@ -17,6 +17,7 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
+import br.com.senai.sollaris.domain.resources.dtos.input.EnderecoDto;
 import br.com.senai.sollaris.domain.resources.dtos.input.PutUsuarioDto;
 import br.com.senai.sollaris.domain.resources.dtos.input.UsuarioDto;
 import lombok.AllArgsConstructor;
@@ -44,8 +45,7 @@ public class Usuario {
 	private Generos genero;
 	private String img;
 	
-	@JsonManagedReference
-	@OneToMany(mappedBy = "usuario", cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private List<Endereco> enderecos = new ArrayList<>();
 	
 	public Usuario(UsuarioDto usuarioDto) {
@@ -81,6 +81,11 @@ public class Usuario {
 		this.email = usuarioDto.getEmail();
 		this.senha = usuarioDto.getSenha();
 		this.telefone = usuarioDto.getTelefone();
+	}
+
+	public void adicionarEndereco(EnderecoDto endereco) {
+		this.enderecos.add(new Endereco(endereco));
+		
 	}
 
 
