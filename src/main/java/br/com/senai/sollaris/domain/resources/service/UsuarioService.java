@@ -18,6 +18,7 @@ import br.com.senai.sollaris.domain.resources.dtos.input.UsuarioDto;
 
 import br.com.senai.sollaris.domain.resources.dtos.output.ReturnUsuarioDto;
 import br.com.senai.sollaris.domain.resources.dtos.output.ReturnUsuarioPut;
+import br.com.senai.sollaris.domain.resources.service.exceptions.CpfEmUsoException;
 import br.com.senai.sollaris.domain.resources.service.exceptions.EmailEmUsoException;
 import br.com.senai.sollaris.domain.resources.service.exceptions.ObjetoNaoEncontradoException;
 
@@ -56,6 +57,7 @@ public class UsuarioService {
 	public ResponseEntity<ReturnUsuarioDto> cadastrarUsuario(UsuarioDto usuarioDto, 
 			UriComponentsBuilder uriBuilder) {
 		validarEmail(usuarioDto);
+		validarCPF(usuarioDto);
 		
 		Usuario usuario = new Usuario(usuarioDto);
 		usuarioRepository.save(usuario);
@@ -65,8 +67,9 @@ public class UsuarioService {
 
 	}
 	
+
 	@Transactional
-	public ResponseEntity<ReturnUsuarioPut> alterarUsuario(Long id, @Valid PutUsuarioDto usuarioDto) {
+	public ResponseEntity<ReturnUsuarioPut> alterarUsuario(Long id, PutUsuarioDto usuarioDto) {
 
 		validarEmail(usuarioDto);
 
@@ -108,6 +111,17 @@ public class UsuarioService {
 				
 				if (email_em_uso)
 					throw new EmailEmUsoException("Email em uso, tente novamente!");
+		
+	}
+	
+	private void validarCPF(UsuarioDto usuarioDto) {
+		boolean cpf_em_uso = usuarioRepository.findByCpf(usuarioDto.getCpf())
+				.stream()
+				.anyMatch(usuarioSGDB -> !usuarioSGDB.equals(new Usuario(usuarioDto)));
+		
+		if (cpf_em_uso)
+			throw new CpfEmUsoException("CPF em uso, tente novamente!");
+				
 		
 	}
 

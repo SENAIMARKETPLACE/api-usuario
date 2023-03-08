@@ -5,8 +5,11 @@ import java.time.LocalDate;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.br.CPF;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import br.com.senai.sollaris.domain.Generos;
 
@@ -34,6 +37,7 @@ public class UsuarioDto {
 	@CPF
 	private String cpf;
 	@NotNull
+	@JsonFormat(pattern = "dd/MM/yyyy")
 	private LocalDate dt_nascimento;
 	@NotBlank
 	@Email
@@ -41,6 +45,7 @@ public class UsuarioDto {
 	@NotBlank
 	private String senha;
 	@NotBlank
+	@Size(min = 11, max = 11)
 	private String telefone;
 	@NotNull
 	private Generos genero;

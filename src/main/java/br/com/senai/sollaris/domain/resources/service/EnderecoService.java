@@ -9,7 +9,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import br.com.senai.sollaris.domain.Usuario;
-import br.com.senai.sollaris.domain.repository.EnderecoRepository;
 import br.com.senai.sollaris.domain.resources.dtos.input.EnderecoDto;
 import br.com.senai.sollaris.domain.resources.dtos.output.ReturnUsuarioDto;
 import lombok.NoArgsConstructor;
@@ -20,15 +19,13 @@ public class EnderecoService {
 	
 	@Autowired
 	private UsuarioService usuarioService;
-	@Autowired
-	private EnderecoRepository enderecoRepository;
 	
 	@Transactional
 	public ResponseEntity<ReturnUsuarioDto> cadastrarEndereco(EnderecoDto endereco, 
 			UriComponentsBuilder uriBuilder) {
 		//Estou validando o id inserido no Usuario se existe
-		Usuario usuario = usuarioService.listarUsuario(endereco.getUsuario().getId());
-		usuario.adicionarEndereco(endereco);
+		Usuario usuario = usuarioService.listarUsuario(endereco.getUsuario_id());
+		usuario.adicionarEndereco(usuario, endereco);
 		
 		
 		URI uri = uriBuilder.path("api/address/{id}").buildAndExpand(usuario.getId()).toUri();

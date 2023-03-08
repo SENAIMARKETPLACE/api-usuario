@@ -14,6 +14,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor 
 @NoArgsConstructor
+
 public class ReturnUsuarioDto {
 	private Long id;
 	private LocalDateTime data_requisicao = LocalDateTime.now();

@@ -21,6 +21,7 @@ public class ReturnEnderecoDto {
 	private String estado;
 	private String bairro;
 	private String cidade;
+	@JsonInclude(value = Include.NON_EMPTY)
 	private String complemento;
 	
 	ReturnEnderecoDto(Endereco endereco){

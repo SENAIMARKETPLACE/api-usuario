@@ -15,8 +15,6 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-
 import br.com.senai.sollaris.domain.resources.dtos.input.EnderecoDto;
 import br.com.senai.sollaris.domain.resources.dtos.input.PutUsuarioDto;
 import br.com.senai.sollaris.domain.resources.dtos.input.UsuarioDto;
@@ -83,8 +81,8 @@ public class Usuario {
 		this.telefone = usuarioDto.getTelefone();
 	}
 
-	public void adicionarEndereco(EnderecoDto endereco) {
-		this.enderecos.add(new Endereco(endereco));
+	public void adicionarEndereco(Usuario usuario, EnderecoDto endereco) {
+		this.enderecos.add(new Endereco(endereco, usuario));
 		
 	}
 

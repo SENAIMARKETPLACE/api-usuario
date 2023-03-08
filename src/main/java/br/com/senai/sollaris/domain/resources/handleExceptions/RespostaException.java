@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
+import br.com.senai.sollaris.domain.resources.service.exceptions.CpfEmUsoException;
 import br.com.senai.sollaris.domain.resources.service.exceptions.EmailEmUsoException;
 import br.com.senai.sollaris.domain.resources.service.exceptions.ObjetoNaoEncontradoException;
 import lombok.AllArgsConstructor;
@@ -46,6 +47,14 @@ public class RespostaException {
 	}
 
 	public RespostaException(EmailEmUsoException ex, HttpStatus status, HttpServletRequest requestPath) {
+		this.titulo = ex.getMessage();
+		this.status = status.value();
+		this.recurso = requestPath.getRequestURI();
+		this.Url = requestPath.getRequestURL();
+		this.dataRequisicao = LocalDateTime.now();
+	}
+
+	public RespostaException(CpfEmUsoException ex, HttpStatus status, HttpServletRequest requestPath) {
 		this.titulo = ex.getMessage();
 		this.status = status.value();
 		this.recurso = requestPath.getRequestURI();

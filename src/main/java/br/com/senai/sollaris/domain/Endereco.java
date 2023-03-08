@@ -41,7 +41,8 @@ public class Endereco {
 	private String cidade;
 	private String complemento;
 
-	public Endereco(EnderecoDto enderecoDto) {
+	public Endereco(EnderecoDto enderecoDto, Usuario usuario) {
+		this.usuario = usuario;
 		this.cep = enderecoDto.getCep();
 		this.logradouro = enderecoDto.getLogradouro();
 		this.numero = enderecoDto.getNumero();
