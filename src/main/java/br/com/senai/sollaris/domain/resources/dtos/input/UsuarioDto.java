@@ -51,5 +51,7 @@ public class UsuarioDto {
 	private Generos genero;
 	@NotBlank
 	private String img;
+	@NotBlank
+	private String grupos_interesses;
 
 }

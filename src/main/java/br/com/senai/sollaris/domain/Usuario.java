@@ -42,6 +42,7 @@ public class Usuario {
 	@Enumerated(EnumType.STRING)
 	private Generos genero;
 	private String img;
+	private String grupos_interesses;
 	
 	@OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private List<Endereco> enderecos = new ArrayList<>();
@@ -55,6 +56,7 @@ public class Usuario {
 		this.telefone = usuarioDto.getTelefone();
 		this.genero = usuarioDto.getGenero();
 		this.img = usuarioDto.getImg();
+		this.grupos_interesses = usuarioDto.getGrupos_interesses();
 	}
 	
 	//metodo usado para atualizar um Usuário
