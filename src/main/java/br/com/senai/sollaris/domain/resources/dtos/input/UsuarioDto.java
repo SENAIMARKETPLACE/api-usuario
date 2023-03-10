@@ -5,6 +5,13 @@ import java.time.LocalDate;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.br.CPF;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+import br.com.senai.sollaris.domain.Generos;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -23,11 +30,14 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UsuarioDto {
+	
 	@NotBlank
 	private String nome;
 	@NotBlank
+	@CPF
 	private String cpf;
 	@NotNull
+	@JsonFormat(pattern = "dd/MM/yyyy")
 	private LocalDate dt_nascimento;
 	@NotBlank
 	@Email
@@ -35,8 +45,13 @@ public class UsuarioDto {
 	@NotBlank
 	private String senha;
 	@NotBlank
+	@Size(min = 11, max = 11)
 	private String telefone;
-//	@NotNull
-//	@Valid
-//	private EnderecoDto endereco;
+	@NotNull
+	private Generos genero;
+	@NotBlank
+	private String img;
+	@NotBlank
+	private String grupos_interesses;
+
 }
