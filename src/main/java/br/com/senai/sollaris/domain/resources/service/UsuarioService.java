@@ -1,9 +1,6 @@
 package br.com.senai.sollaris.domain.resources.service;
 
 import java.net.URI;
-import java.util.List;
-
-import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -17,7 +14,6 @@ import br.com.senai.sollaris.domain.Usuario;
 import br.com.senai.sollaris.domain.repository.UsuarioRepository;
 import br.com.senai.sollaris.domain.resources.dtos.input.PutUsuarioDto;
 import br.com.senai.sollaris.domain.resources.dtos.input.UsuarioDto;
-
 import br.com.senai.sollaris.domain.resources.dtos.output.ReturnUsuarioDto;
 import br.com.senai.sollaris.domain.resources.dtos.output.ReturnUsuarioPut;
 import br.com.senai.sollaris.domain.resources.service.exceptions.CpfEmUsoException;
@@ -42,7 +38,7 @@ public class UsuarioService {
 	private UsuarioRepository usuarioRepository;
 	
 		public Page<ReturnUsuarioDto> listarUsuarios(Pageable page) {
-		return usuarioRepository.findAll(page).map(usuario -> new ReturnUsuarioDto(usuario));
+		return usuarioRepository.findAll(page).map(ReturnUsuarioDto::new);
 		
 	}
 	

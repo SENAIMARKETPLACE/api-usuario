@@ -1,7 +1,7 @@
 package br.com.senai.sollaris.domain.resources.dtos.input;
 
 import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -12,13 +12,14 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PutUsuarioDto {
-	@NotBlank
+	
 	private String nome;
-	@NotBlank
+	
 	@Email
 	private String email;
-	@NotBlank
 	private String senha;
-	@NotBlank
+	
+	@Size(min = 11, max = 11)
 	private String telefone;
+	private String img;
 }

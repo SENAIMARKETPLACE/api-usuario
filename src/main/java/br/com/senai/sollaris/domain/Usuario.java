@@ -74,6 +74,10 @@ public class Usuario {
 		
 		if (usuarioDto.getTelefone() != null)
 			this.telefone = usuarioDto.getTelefone();
+		
+		if (usuarioDto.getImg() != null) {
+			this.img = usuarioDto.getImg();
+		}
 	}
 	
 	//Construtor usado no método validarEmail em UsuarioService
