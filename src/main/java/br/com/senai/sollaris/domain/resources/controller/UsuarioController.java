@@ -1,10 +1,10 @@
 package br.com.senai.sollaris.domain.resources.controller;
 
-import java.util.List;
-
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -40,8 +40,8 @@ public class UsuarioController {
 	private UsuarioService clienteService;
 	
 	@GetMapping
-	public ResponseEntity<List<ReturnUsuarioDto>> listarUsuarios () {
-		return ResponseEntity.ok(clienteService.listarUsuarios());
+	public ResponseEntity<Page<ReturnUsuarioDto>> listarUsuarios (Pageable page) {
+		return ResponseEntity.ok(clienteService.listarUsuarios(page));
 	}
 	
 	@GetMapping("/{id}")

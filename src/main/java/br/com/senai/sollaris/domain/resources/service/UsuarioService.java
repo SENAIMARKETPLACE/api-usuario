@@ -6,6 +6,8 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -39,11 +41,8 @@ public class UsuarioService {
 	@Autowired
 	private UsuarioRepository usuarioRepository;
 	
-		public List<ReturnUsuarioDto> listarUsuarios() {
-		return usuarioRepository.findAll()
-				.stream()
-				.map(usuario -> new ReturnUsuarioDto(usuario))
-				.toList();
+		public Page<ReturnUsuarioDto> listarUsuarios(Pageable page) {
+		return usuarioRepository.findAll(page).map(usuario -> new ReturnUsuarioDto(usuario));
 		
 	}
 	
@@ -70,11 +69,8 @@ public class UsuarioService {
 
 	@Transactional
 	public ResponseEntity<ReturnUsuarioPut> alterarUsuario(Long id, PutUsuarioDto usuarioDto) {
-
 		validarEmail(usuarioDto);
-
 		Usuario usuario = buscarUsuario(id);
-		
 		usuario.atualizarInformacoes(id, usuarioDto);
 		
 		return ResponseEntity.ok(new ReturnUsuarioPut(usuario));

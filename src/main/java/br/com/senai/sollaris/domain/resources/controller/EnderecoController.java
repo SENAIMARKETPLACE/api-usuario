@@ -15,7 +15,7 @@ import br.com.senai.sollaris.domain.resources.dtos.output.ReturnUsuarioDto;
 import br.com.senai.sollaris.domain.resources.service.EnderecoService;
 
 @RestController
-@RequestMapping("api/address")
+@RequestMapping("api/user/address")
 public class EnderecoController {
 	
 	@Autowired

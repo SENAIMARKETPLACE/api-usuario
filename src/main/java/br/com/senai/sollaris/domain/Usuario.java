@@ -56,10 +56,10 @@ public class Usuario {
 		this.telefone = usuarioDto.getTelefone();
 		this.genero = usuarioDto.getGenero();
 		this.img = usuarioDto.getImg();
-		this.grupos_interesses = usuarioDto.getGrupos_interesses();
-	}
+		this.grupos_interesses = formatarGrupoTexto(usuarioDto.getGrupos_interesses());	}
 	
-	//metodo usado para atualizar um Usuário
+
+	//metodo usado para atualizar um Usuário, Json Manipulável
 	public void atualizarInformacoes(Long id, PutUsuarioDto usuarioDto) {
 		this.id = id;
 		
@@ -75,17 +75,30 @@ public class Usuario {
 		if (usuarioDto.getTelefone() != null)
 			this.telefone = usuarioDto.getTelefone();
 	}
-
+	
+	//Construtor usado no método validarEmail em UsuarioService
 	public Usuario(PutUsuarioDto usuarioDto) {
 		this.nome = usuarioDto.getNome();
 		this.email = usuarioDto.getEmail();
 		this.senha = usuarioDto.getSenha();
 		this.telefone = usuarioDto.getTelefone();
 	}
+	
 
 	public void adicionarEndereco(Usuario usuario, EnderecoDto endereco) {
 		this.enderecos.add(new Endereco(endereco, usuario));
 		
+	}
+	
+	//Ele formata o Array recebido de UsuarioDto para poder salvar no banco
+	private String formatarGrupoTexto(String[] grupos_interesses2) {
+		String grupos_interesses = "";
+		
+		for (String string : grupos_interesses2) {
+			grupos_interesses += string;
+			grupos_interesses += ",";
+		}
+		return grupos_interesses;
 	}
 
 
