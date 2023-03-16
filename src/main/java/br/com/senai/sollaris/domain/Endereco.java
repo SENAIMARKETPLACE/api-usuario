@@ -12,6 +12,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import br.com.senai.sollaris.domain.resources.dtos.input.EnderecoDto;
+import br.com.senai.sollaris.domain.resources.dtos.input.PutEnderecoDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -50,5 +51,17 @@ public class Endereco {
 		this.bairro = enderecoDto.getEstado();
 		this.cidade = enderecoDto.getCidade();
 		this.complemento = enderecoDto.getComplemento();
+	}
+	
+	//este método altera somente o endereço
+	public void alterar(PutEnderecoDto enderecoDto) {
+		this.cep = enderecoDto.getCep();
+		this.logradouro = enderecoDto.getLogradouro();
+		this.numero = enderecoDto.getNumero();
+		this.estado = enderecoDto.getEstado();
+		this.bairro = enderecoDto.getEstado();
+		this.cidade = enderecoDto.getCidade();
+		this.complemento = enderecoDto.getComplemento();
+		
 	}
 }

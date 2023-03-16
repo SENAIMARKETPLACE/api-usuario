@@ -6,6 +6,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -29,12 +30,12 @@ public class EnderecoController {
 	private EnderecoService enderecoService;
 	
 	@GetMapping
-	public List<ReturnEnderecoDto> listarEnderecos(){
+	public ResponseEntity<List<ReturnEnderecoDto>> listarEnderecos(){
 		return enderecoService.listarEnderecos();
 	}
 	
 	@GetMapping("/{id}")
-	public ReturnEnderecoDto listarEndereco(@PathVariable Long id) {
+	public ResponseEntity<ReturnEnderecoDto> listarEndereco(@PathVariable Long id) {
 		return enderecoService.listarEndereco(id);
 	}
 
@@ -46,7 +47,12 @@ public class EnderecoController {
 	}
 
 	@PutMapping("/{id}")
-	public void alterarEndereco(@PathVariable Long id, @RequestBody PutEnderecoDto endereco) {
-		enderecoService.alterarEndereco(id, endereco);
+	public ResponseEntity<ReturnEnderecoDto> alterarEndereco(@PathVariable Long id, @RequestBody PutEnderecoDto endereco) {
+		return enderecoService.alterarEndereco(id, endereco);
+	}
+	
+	@DeleteMapping("/{id}")
+	public ResponseEntity<Object> deletarEndereco(@PathVariable Long id) {
+		return enderecoService.deletarEndereco(id);
 	}
 }

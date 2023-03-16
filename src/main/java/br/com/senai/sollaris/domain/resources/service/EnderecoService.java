@@ -25,13 +25,15 @@ public class EnderecoService {
 	private final UsuarioService usuarioService;
 	private final EnderecoRepository enderecoRepository;
 
-	public List<ReturnEnderecoDto> listarEnderecos() {
-		return enderecoRepository.findAll().stream().map(ReturnEnderecoDto::new).toList();
+	public ResponseEntity<List<ReturnEnderecoDto>> listarEnderecos() {
+		return ResponseEntity.ok(enderecoRepository.findAll()
+				.stream().map(ReturnEnderecoDto::new).toList());
 	}
 	
-	public Endereco listarEndereco(Long id) {
-		enderecoRepository.findById(id).orElseThrow(() -> new ObjetoNaoEncontradoException("Endereço não encontrado"));
-		return 
+	public ResponseEntity<ReturnEnderecoDto> listarEndereco(Long id) {
+		return ResponseEntity.ok(
+				new ReturnEnderecoDto(enderecoRepository.findById(id).
+						orElseThrow(() -> new ObjetoNaoEncontradoException("Endereço não encontrado"))));
 		
 	}
 
@@ -48,8 +50,23 @@ public class EnderecoService {
 	}
 
 	@Transactional
-	public void alterarEndereco(Long id, PutEnderecoDto endereco) {
-
+	public ResponseEntity<ReturnEnderecoDto> alterarEndereco(Long id, PutEnderecoDto enderecoAlterar) {
+		Endereco endereco = enderecoRepository.findById(id)
+				.orElseThrow(() -> new ObjetoNaoEncontradoException("Endereço não localizado"));
+		
+		endereco.alterar(enderecoAlterar);
+		
+		return ResponseEntity.ok(new ReturnEnderecoDto(endereco));
+	}
+	
+	@Transactional
+	public ResponseEntity<Object> deletarEndereco(Long id) {
+		if (enderecoRepository.existsById(id)) {
+			enderecoRepository.deleteById(id);
+			return ResponseEntity.noContent().build();
+		}
+		
+		return ResponseEntity.notFound().build();
 	}
 
 
