@@ -2,7 +2,6 @@ package br.com.senai.sollaris.domain.resources.handleExceptions;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -19,8 +18,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import br.com.senai.sollaris.domain.Usuario;
-import br.com.senai.sollaris.domain.infra.UsuarioConfig;
 import br.com.senai.sollaris.domain.resources.service.exceptions.CpfEmUsoException;
 import br.com.senai.sollaris.domain.resources.service.exceptions.EmailEmUsoException;
 import br.com.senai.sollaris.domain.resources.service.exceptions.ObjetoNaoEncontradoException;

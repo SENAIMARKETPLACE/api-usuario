@@ -24,7 +24,7 @@ public class ReturnEnderecoDto {
 	@JsonInclude(value = Include.NON_EMPTY)
 	private String complemento;
 	
-	ReturnEnderecoDto(Endereco endereco){
+	public ReturnEnderecoDto(Endereco endereco){
 		this.id = endereco.getId();
 		this.cep = endereco.getCep();
 		this.logradouro = endereco.getLogradouro();
