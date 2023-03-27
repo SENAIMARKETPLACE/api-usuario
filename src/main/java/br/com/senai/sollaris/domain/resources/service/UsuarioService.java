@@ -14,6 +14,7 @@ import br.com.senai.sollaris.domain.Usuario;
 import br.com.senai.sollaris.domain.repository.UsuarioRepository;
 import br.com.senai.sollaris.domain.resources.dtos.input.PutUsuarioDto;
 import br.com.senai.sollaris.domain.resources.dtos.input.UsuarioDto;
+import br.com.senai.sollaris.domain.resources.dtos.input.UsuarioLogin;
 import br.com.senai.sollaris.domain.resources.dtos.output.ReturnUsuarioDto;
 import br.com.senai.sollaris.domain.resources.dtos.output.ReturnUsuarioPut;
 import br.com.senai.sollaris.domain.resources.service.exceptions.CpfEmUsoException;
@@ -33,17 +34,17 @@ import br.com.senai.sollaris.domain.resources.service.exceptions.ObjetoNaoEncont
 @Service
 public class UsuarioService {
 	
-	
 	@Autowired
 	private UsuarioRepository usuarioRepository;
 	
-		public Page<ReturnUsuarioDto> listarUsuarios(Pageable page) {
-		return usuarioRepository.findAll(page).map(ReturnUsuarioDto::new);
-		
-	}
 	
+	public Page<ReturnUsuarioDto> listarUsuarios(Pageable page) {
+		return usuarioRepository.findAll(page).map(ReturnUsuarioDto::new);
+	}
+		
+	//Utilizado no EnderecoService e UsuarioService, também UsuarioController
 	public Usuario listarUsuario(Long id) {
-		return usuarioRepository.findById(id)
+		return  usuarioRepository.findById(id)
 				.orElseThrow(() -> new ObjetoNaoEncontradoException("Usuário não encontrado")); 
 		
 	}
@@ -66,7 +67,7 @@ public class UsuarioService {
 	@Transactional
 	public ResponseEntity<ReturnUsuarioPut> alterarUsuario(Long id, PutUsuarioDto usuarioDto) {
 		validarEmail(usuarioDto);
-		Usuario usuario = buscarUsuario(id);
+		Usuario usuario = listarUsuario(id);
 		usuario.atualizarInformacoes(id, usuarioDto);
 		
 		return ResponseEntity.ok(new ReturnUsuarioPut(usuario));
@@ -83,38 +84,11 @@ public class UsuarioService {
 		return ResponseEntity.notFound().build();
 	}
 	
-	private Usuario buscarUsuario(Long id) {
-		return usuarioRepository.findById(id).orElseThrow(() -> new ObjetoNaoEncontradoException("Usuário não encontrado")); 
-	}
 	
-	private void validarEmail(UsuarioDto usuario) {
-		boolean email_em_uso = usuarioRepository.findByEmail(usuario.getEmail())
-		.stream()
-		.anyMatch(usuarioSGDB -> !usuarioSGDB.equals(new Usuario(usuario)));
-		
-		if (email_em_uso)
-			throw new EmailEmUsoException("Email em uso, tente novamente!");
-	}
-	
-	private void validarEmail(PutUsuarioDto usuario) {
-		boolean email_em_uso = usuarioRepository.findByEmail(usuario.getEmail())
-				.stream()
-				.anyMatch(usuarioSGDB -> !usuarioSGDB.equals(new Usuario(usuario)));
-				
-				if (email_em_uso)
-					throw new EmailEmUsoException("Email em uso, tente novamente!");
-		
-	}
-	
-	private void validarCPF(UsuarioDto usuarioDto) {
-		boolean cpf_em_uso = usuarioRepository.findByCpf(usuarioDto.getCpf())
-				.stream()
-				.anyMatch(usuarioSGDB -> !usuarioSGDB.equals(new Usuario(usuarioDto)));
-		
-		if (cpf_em_uso)
-			throw new CpfEmUsoException("CPF em uso, tente novamente!");
-				
-		
+	public ResponseEntity<ReturnUsuarioDto> logarUsuario(UsuarioLogin usuario) {
+		return ResponseEntity.ok(usuarioRepository.login(usuario.getEmail(), usuario.getSenha())
+				.map(ReturnUsuarioDto::new)
+				.orElseThrow(() -> new ObjetoNaoEncontradoException("Email e/ou senha inválida, tente novamente!"))); 
 	}
 
 }

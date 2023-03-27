@@ -19,6 +19,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import br.com.senai.sollaris.domain.resources.dtos.input.PutUsuarioDto;
 import br.com.senai.sollaris.domain.resources.dtos.input.UsuarioDto;
+import br.com.senai.sollaris.domain.resources.dtos.input.UsuarioLogin;
 import br.com.senai.sollaris.domain.resources.dtos.output.ReturnUsuarioDto;
 import br.com.senai.sollaris.domain.resources.dtos.output.ReturnUsuarioPut;
 import br.com.senai.sollaris.domain.resources.service.UsuarioService;
@@ -37,33 +38,37 @@ import br.com.senai.sollaris.domain.resources.service.UsuarioService;
 public class UsuarioController {
 	
 	@Autowired
-	private UsuarioService clienteService;
+	private UsuarioService usuarioService;
 	
 	@GetMapping
 	public ResponseEntity<Page<ReturnUsuarioDto>> listarUsuarios (Pageable page) {
-		return ResponseEntity.ok(clienteService.listarUsuarios(page));
+		return ResponseEntity.ok(usuarioService.listarUsuarios(page));
 	}
 	
 	@GetMapping("/{id}")
 	public ResponseEntity<ReturnUsuarioDto> listarUsuarios (@PathVariable Long id) {
-		return ResponseEntity.ok(new ReturnUsuarioDto(clienteService.listarUsuario(id)));
+		return ResponseEntity.ok(new ReturnUsuarioDto(usuarioService.listarUsuario(id)));
 	}
 	
 	@PostMapping
 	public ResponseEntity<ReturnUsuarioDto> cadastrarUsuario(@Valid @RequestBody UsuarioDto usuarioDto,
 			UriComponentsBuilder uriBuilder){
-		return clienteService.cadastrarUsuario(usuarioDto, uriBuilder);
+		return usuarioService.cadastrarUsuario(usuarioDto, uriBuilder);
 	}
 	
+	@PostMapping("/login")
+	public ResponseEntity<ReturnUsuarioDto> logarUsuario(@RequestBody UsuarioLogin usuario) {
+		return usuarioService.logarUsuario(usuario);
+	}
 	
 	@PutMapping("/{id}")
 	public ResponseEntity<ReturnUsuarioPut> alterarUsuario(@PathVariable Long id, @RequestBody @Valid PutUsuarioDto usuarioDto) {
-		return clienteService.alterarUsuario(id, usuarioDto);
+		return usuarioService.alterarUsuario(id, usuarioDto);
 	}
 	
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Object> deletarUsuarios (@PathVariable Long id){
-		return clienteService.deletarUsuario(id);
+		return usuarioService.deletarUsuario(id);
 	}
 	
 }
