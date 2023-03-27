@@ -2,7 +2,6 @@ package br.com.senai.sollaris.domain.resources.service;
 
 import java.net.URI;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -17,9 +16,9 @@ import br.com.senai.sollaris.domain.resources.dtos.input.UsuarioDto;
 import br.com.senai.sollaris.domain.resources.dtos.input.UsuarioLogin;
 import br.com.senai.sollaris.domain.resources.dtos.output.ReturnUsuarioDto;
 import br.com.senai.sollaris.domain.resources.dtos.output.ReturnUsuarioPut;
-import br.com.senai.sollaris.domain.resources.service.exceptions.CpfEmUsoException;
-import br.com.senai.sollaris.domain.resources.service.exceptions.EmailEmUsoException;
 import br.com.senai.sollaris.domain.resources.service.exceptions.ObjetoNaoEncontradoException;
+import br.com.senai.sollaris.domain.resources.service.validations.UsuarioServiceValidation;
+import lombok.RequiredArgsConstructor;
 
 /*
  * ELE É A COZINHA
@@ -31,11 +30,12 @@ import br.com.senai.sollaris.domain.resources.service.exceptions.ObjetoNaoEncont
  * 
  */
 
+@RequiredArgsConstructor
 @Service
 public class UsuarioService {
 	
-	@Autowired
-	private UsuarioRepository usuarioRepository;
+	private final UsuarioRepository usuarioRepository;
+	private final UsuarioServiceValidation serviceValidation;
 	
 	
 	public Page<ReturnUsuarioDto> listarUsuarios(Pageable page) {
@@ -52,8 +52,8 @@ public class UsuarioService {
 	@Transactional
 	public ResponseEntity<ReturnUsuarioDto> cadastrarUsuario(UsuarioDto usuarioDto, 
 			UriComponentsBuilder uriBuilder) {
-		validarEmail(usuarioDto);
-		validarCPF(usuarioDto);
+		serviceValidation.validarEmail(usuarioDto);
+		serviceValidation.validarCPF(usuarioDto);
 		
 		Usuario usuario = new Usuario(usuarioDto);
 		usuarioRepository.save(usuario);
@@ -66,7 +66,7 @@ public class UsuarioService {
 
 	@Transactional
 	public ResponseEntity<ReturnUsuarioPut> alterarUsuario(Long id, PutUsuarioDto usuarioDto) {
-		validarEmail(usuarioDto);
+		serviceValidation.validarEmail(usuarioDto);
 		Usuario usuario = listarUsuario(id);
 		usuario.atualizarInformacoes(id, usuarioDto);
 		
