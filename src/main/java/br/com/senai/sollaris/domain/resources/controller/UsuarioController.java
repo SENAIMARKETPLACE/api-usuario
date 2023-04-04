@@ -1,10 +1,10 @@
 package br.com.senai.sollaris.domain.resources.controller;
 
-import java.util.List;
-
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -17,9 +17,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import br.com.senai.sollaris.domain.Usuario;
 import br.com.senai.sollaris.domain.resources.dtos.input.PutUsuarioDto;
 import br.com.senai.sollaris.domain.resources.dtos.input.UsuarioDto;
+import br.com.senai.sollaris.domain.resources.dtos.input.UsuarioLogin;
+import br.com.senai.sollaris.domain.resources.dtos.output.ReturnUsuarioDto;
+import br.com.senai.sollaris.domain.resources.dtos.output.ReturnUsuarioPut;
 import br.com.senai.sollaris.domain.resources.service.UsuarioService;
 
 /*
@@ -36,32 +38,37 @@ import br.com.senai.sollaris.domain.resources.service.UsuarioService;
 public class UsuarioController {
 	
 	@Autowired
-	private UsuarioService clienteService;
+	private UsuarioService usuarioService;
 	
 	@GetMapping
-	public List<Usuario> listarUsuarios () {
-		return clienteService.listarUsuarios();
+	public ResponseEntity<Page<ReturnUsuarioDto>> listarUsuarios (Pageable page) {
+		return ResponseEntity.ok(usuarioService.listarUsuarios(page));
 	}
 	
 	@GetMapping("/{id}")
-	public Usuario listarUsuarios (@PathVariable Long id) {
-		return clienteService.listarUsuario(id);
+	public ResponseEntity<ReturnUsuarioDto> listarUsuarios (@PathVariable Long id) {
+		return ResponseEntity.ok(new ReturnUsuarioDto(usuarioService.listarUsuario(id)));
 	}
 	
 	@PostMapping
-	public ResponseEntity<Usuario> cadastrarUsuario(@Valid @RequestBody UsuarioDto usuarioDto,
-			UriComponentsBuilder uriBuilder) {
-		return clienteService.cadastrarUsuario(usuarioDto, uriBuilder);
+	public ResponseEntity<ReturnUsuarioDto> cadastrarUsuario(@Valid @RequestBody UsuarioDto usuarioDto,
+			UriComponentsBuilder uriBuilder){
+		return usuarioService.cadastrarUsuario(usuarioDto, uriBuilder);
+	}
+	
+	@PostMapping("/login")
+	public ResponseEntity<ReturnUsuarioDto> logarUsuario(@RequestBody UsuarioLogin usuario) {
+		return usuarioService.logarUsuario(usuario);
 	}
 	
 	@PutMapping("/{id}")
-	public ResponseEntity<Object> alterarUsuario(@PathVariable Long id, @RequestBody @Valid PutUsuarioDto usuarioDto) {
-		return clienteService.alterarUsuario(id, usuarioDto);
+	public ResponseEntity<ReturnUsuarioPut> alterarUsuario(@PathVariable Long id, @RequestBody @Valid PutUsuarioDto usuarioDto) {
+		return usuarioService.alterarUsuario(id, usuarioDto);
 	}
 	
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Object> deletarUsuarios (@PathVariable Long id){
-		return clienteService.deletarUsuario(id);
+		return usuarioService.deletarUsuario(id);
 	}
 	
 }

@@ -18,11 +18,20 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import br.com.senai.sollaris.domain.resources.service.exceptions.CpfEmUsoException;
+import br.com.senai.sollaris.domain.resources.service.exceptions.EmailEmUsoException;
 import br.com.senai.sollaris.domain.resources.service.exceptions.ObjetoNaoEncontradoException;
+
+/*
+ * ControllerAdvice = Fala para o Spring que essa clase ela trata os erros
+ * ResponseEntityException = É O PADRÃO DE RESPOSTA PARA COISAS NEGATIVAS (ERROS)
+ */
 
 @ControllerAdvice
 public class handleExceptions extends ResponseEntityExceptionHandler{
 	
+	
+	//Ele pega as mensagem dos erros
 	@Autowired
 	private MessageSource messageSource;
 	
@@ -35,6 +44,7 @@ public class handleExceptions extends ResponseEntityExceptionHandler{
 		
 		//Uma lista contendo os campos e mensagem dos erros
 		List<FieldError> todosOsErros = ex.getBindingResult().getFieldErrors();
+		
 		
 		todosOsErros.forEach(field_error -> {
 			String nome = field_error.getField();
@@ -52,6 +62,28 @@ public class handleExceptions extends ResponseEntityExceptionHandler{
 	public ResponseEntity<Object> ObjetoNaoEncontrado(ObjetoNaoEncontradoException ex, 
 			HttpServletRequest requestPath, WebRequest request){
 		HttpStatus status = HttpStatus.NOT_FOUND;
+		RespostaException resposta = new RespostaException(ex, status, requestPath);
+		
+		return handleExceptionInternal(ex, resposta, new HttpHeaders(), status, request);
+		
+		
+	}
+	
+	@ExceptionHandler(EmailEmUsoException.class)
+	public ResponseEntity<Object> ObjetoNaoEncontrado(EmailEmUsoException ex, 
+			HttpServletRequest requestPath, WebRequest request){
+		HttpStatus status = HttpStatus.BAD_REQUEST;
+		RespostaException resposta = new RespostaException(ex, status, requestPath);
+		
+		return handleExceptionInternal(ex, resposta, new HttpHeaders(), status, request);
+		
+		
+	}
+	
+	@ExceptionHandler(CpfEmUsoException.class)
+	public ResponseEntity<Object> ObjetoNaoEncontrado(CpfEmUsoException ex, 
+			HttpServletRequest requestPath, WebRequest request){
+		HttpStatus status = HttpStatus.BAD_REQUEST;
 		RespostaException resposta = new RespostaException(ex, status, requestPath);
 		
 		return handleExceptionInternal(ex, resposta, new HttpHeaders(), status, request);
