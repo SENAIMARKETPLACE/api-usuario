@@ -37,7 +37,6 @@ public class UsuarioDto {
 	@CPF
 	private String cpf;
 	@NotNull
-	@JsonFormat(pattern = "dd/MM/yyyy")
 	private LocalDate dt_nascimento;
 	@NotBlank
 	@Email
