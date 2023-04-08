@@ -37,7 +37,6 @@ public class UsuarioService {
 	private final UsuarioRepository usuarioRepository;
 	private final UsuarioServiceValidation serviceValidation;
 	
-	
 	public Page<ReturnUsuarioDto> listarUsuarios(Pageable page) {
 		return usuarioRepository.findAll(page).map(ReturnUsuarioDto::new);
 	}
@@ -57,6 +56,7 @@ public class UsuarioService {
 		
 		Usuario usuario = new Usuario(usuarioDto);
 		usuarioRepository.save(usuario);
+		usuario.adicionarEndereco(usuario, usuarioDto.getEndereco());
 		
 		URI uri = uriBuilder.path("/api/users/{id}").buildAndExpand(usuario.getId()).toUri();
 		return ResponseEntity.created(uri).body(new ReturnUsuarioDto(usuario));
