@@ -62,7 +62,7 @@ public class handleExceptions extends ResponseEntityExceptionHandler{
 	public ResponseEntity<Object> ObjetoNaoEncontrado(ObjetoNaoEncontradoException ex, 
 			HttpServletRequest requestPath, WebRequest request){
 		HttpStatus status = HttpStatus.NOT_FOUND;
-		RespostaException resposta = new RespostaException(ex, status, requestPath);
+		RespostaException resposta = new RespostaException(ex.getMessage(), status.value(), requestPath);
 		
 		return handleExceptionInternal(ex, resposta, new HttpHeaders(), status, request);
 		
@@ -73,7 +73,7 @@ public class handleExceptions extends ResponseEntityExceptionHandler{
 	public ResponseEntity<Object> ObjetoNaoEncontrado(EmailEmUsoException ex, 
 			HttpServletRequest requestPath, WebRequest request){
 		HttpStatus status = HttpStatus.BAD_REQUEST;
-		RespostaException resposta = new RespostaException(ex, status, requestPath);
+		RespostaException resposta = new RespostaException(ex.getMessage(), status.value(), requestPath);
 		
 		return handleExceptionInternal(ex, resposta, new HttpHeaders(), status, request);
 		
@@ -84,7 +84,7 @@ public class handleExceptions extends ResponseEntityExceptionHandler{
 	public ResponseEntity<Object> ObjetoNaoEncontrado(CpfEmUsoException ex, 
 			HttpServletRequest requestPath, WebRequest request){
 		HttpStatus status = HttpStatus.BAD_REQUEST;
-		RespostaException resposta = new RespostaException(ex, status, requestPath);
+		RespostaException resposta = new RespostaException(ex.getMessage(), status.value(), requestPath);
 		
 		return handleExceptionInternal(ex, resposta, new HttpHeaders(), status, request);
 		

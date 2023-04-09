@@ -1,6 +1,7 @@
 package br.com.senai.sollaris.domain.resources.handleExceptions;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -10,9 +11,6 @@ import org.springframework.http.HttpStatus;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
-import br.com.senai.sollaris.domain.resources.service.exceptions.CpfEmUsoException;
-import br.com.senai.sollaris.domain.resources.service.exceptions.EmailEmUsoException;
-import br.com.senai.sollaris.domain.resources.service.exceptions.ObjetoNaoEncontradoException;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,38 +26,24 @@ public class RespostaException {
 	private StringBuffer Url;
 	private Integer status;
 	private String recurso;
-	private LocalDateTime dataRequisicao;
+	private String data_requisicao;
 	private List<Campo> campos;
 	
-	public RespostaException(ObjetoNaoEncontradoException ex, HttpStatus status, HttpServletRequest requestPath) {
-		this.titulo = ex.getMessage();
-		this.status = status.value();
-		this.recurso = requestPath.getRequestURI();
-		this.Url = requestPath.getRequestURL();
-		this.dataRequisicao = LocalDateTime.now();
-	}
 
 	public RespostaException(HttpStatus status, List<Campo> campos) {
 		this.titulo = "Campos inválidos, tente novamente";
 		this.status = status.value();
-		this.dataRequisicao = LocalDateTime.now();
+		this.data_requisicao = LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss"));
 		this.campos = campos;
 	}
 
-	public RespostaException(EmailEmUsoException ex, HttpStatus status, HttpServletRequest requestPath) {
-		this.titulo = ex.getMessage();
-		this.status = status.value();
-		this.recurso = requestPath.getRequestURI();
-		this.Url = requestPath.getRequestURL();
-		this.dataRequisicao = LocalDateTime.now();
-	}
 
-	public RespostaException(CpfEmUsoException ex, HttpStatus status, HttpServletRequest requestPath) {
-		this.titulo = ex.getMessage();
-		this.status = status.value();
+	public RespostaException(String ex, int status, HttpServletRequest requestPath) {
+		this.titulo = ex;
+		this.status = status;
 		this.recurso = requestPath.getRequestURI();
 		this.Url = requestPath.getRequestURL();
-		this.dataRequisicao = LocalDateTime.now();
+		this.data_requisicao = LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss"));
 	}
 	
 	
