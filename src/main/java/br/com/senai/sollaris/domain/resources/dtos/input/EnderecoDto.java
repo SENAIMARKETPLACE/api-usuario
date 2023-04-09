@@ -17,6 +17,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class EnderecoDto {
 	
+
 	@NotBlank
 	@Size(min = 8 ,max = 8)
 	private String cep;

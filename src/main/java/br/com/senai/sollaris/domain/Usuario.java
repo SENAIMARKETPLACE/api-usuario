@@ -56,8 +56,8 @@ public class Usuario {
 		this.telefone = usuarioDto.getTelefone();
 		this.genero = usuarioDto.getGenero();
 		this.img = usuarioDto.getImg();
-		this.grupos_interesses = formatarGrupoTexto(usuarioDto.getGrupos_interesses());	}
-	
+		this.grupos_interesses = formatarGrupoTexto(usuarioDto.getGrupos_interesses());	
+		}
 
 	//metodo usado para atualizar um Usuário, Json Manipulável
 	public void atualizarInformacoes(Long id, PutUsuarioDto usuarioDto) {
@@ -87,7 +87,7 @@ public class Usuario {
 		this.senha = usuarioDto.getSenha();
 		this.telefone = usuarioDto.getTelefone();
 	}
-	
+
 
 	public void adicionarEndereco(Usuario usuario, EnderecoDto endereco) {
 		this.enderecos.add(new Endereco(endereco, usuario));
@@ -104,6 +104,5 @@ public class Usuario {
 		}
 		return grupos_interesses;
 	}
-
 
 }

@@ -41,9 +41,8 @@ public class UsuarioService {
 		return usuarioRepository.findAll(page).map(ReturnUsuarioDto::new);
 	}
 		
-	//Utilizado no EnderecoService e UsuarioService, também UsuarioController
 	public Usuario listarUsuario(Long id) {
-		return  usuarioRepository.findById(id)
+		return usuarioRepository.findById(id)
 				.orElseThrow(() -> new ObjetoNaoEncontradoException("Usuário não encontrado")); 
 		
 	}
@@ -68,6 +67,7 @@ public class UsuarioService {
 	public ResponseEntity<ReturnUsuarioPut> alterarUsuario(Long id, PutUsuarioDto usuarioDto) {
 		serviceValidation.validarEmail(usuarioDto);
 		Usuario usuario = listarUsuario(id);
+
 		usuario.atualizarInformacoes(id, usuarioDto);
 		
 		return ResponseEntity.ok(new ReturnUsuarioPut(usuario));
