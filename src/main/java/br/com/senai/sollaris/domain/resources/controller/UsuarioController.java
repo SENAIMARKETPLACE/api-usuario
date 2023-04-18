@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,9 +18,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import br.com.senai.sollaris.domain.resources.dtos.input.PutUsuarioDto;
 import br.com.senai.sollaris.domain.resources.dtos.input.UsuarioDto;
-
 import br.com.senai.sollaris.domain.resources.dtos.input.UsuarioLogin;
-
 import br.com.senai.sollaris.domain.resources.dtos.output.ReturnUsuarioDto;
 import br.com.senai.sollaris.domain.resources.dtos.output.ReturnUsuarioPut;
 import br.com.senai.sollaris.domain.resources.service.UsuarioService;
@@ -36,7 +33,6 @@ import br.com.senai.sollaris.domain.resources.service.UsuarioService;
 
 @RestController
 @RequestMapping("api/users")
-@CrossOrigin("http://localhost:3000")
 public class UsuarioController {
 	
 	@Autowired

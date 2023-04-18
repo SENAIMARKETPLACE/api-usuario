@@ -15,7 +15,7 @@ public class CorsConfig {
 			public void addCorsMappings(CorsRegistry registry) {
 				registry.addMapping("/**") //mapeamento global
                 .allowedOrigins("http://localhost:3000") //  permite solicitações apenas do domínio http://localhost:3000
-                .allowedMethods("GET", "POST", "PUT", "DELETE")
+                .allowedMethods("GET", "POST", "PUT", "DELETE, OPTIONS")
                 .allowedHeaders("*") //  permite todos os cabeçalhos da solicitação
                 .allowCredentials(true) // permite o compartilhamento de cookies de autenticação
                 .maxAge(3600); // define o tempo de cache máximo para a resposta de preflight em segundos
