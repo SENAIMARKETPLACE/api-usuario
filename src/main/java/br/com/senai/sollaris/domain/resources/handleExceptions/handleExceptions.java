@@ -21,6 +21,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 import br.com.senai.sollaris.domain.resources.service.exceptions.CpfEmUsoException;
 import br.com.senai.sollaris.domain.resources.service.exceptions.EmailEmUsoException;
 import br.com.senai.sollaris.domain.resources.service.exceptions.ObjetoNaoEncontradoException;
+import br.com.senai.sollaris.domain.resources.service.exceptions.Usuario_EnderecoNaoEncontradoException;
 
 /*
  * ControllerAdvice = Fala para o Spring que essa clase ela trata os erros
@@ -89,5 +90,14 @@ public class handleExceptions extends ResponseEntityExceptionHandler{
 		return handleExceptionInternal(ex, resposta, new HttpHeaders(), status, request);
 		
 		
+	}
+	
+	@ExceptionHandler(Usuario_EnderecoNaoEncontradoException.class)
+	public ResponseEntity<Object> ObjetoNaoEncontrado(Usuario_EnderecoNaoEncontradoException ex, 
+			HttpServletRequest requestPath, WebRequest request){
+		HttpStatus status = HttpStatus.BAD_REQUEST;
+		RespostaException resposta = new RespostaException(ex.getMessage(), status.value(), requestPath);
+		
+		return handleExceptionInternal(ex, resposta, new HttpHeaders(), status, request);	
 	}
 }

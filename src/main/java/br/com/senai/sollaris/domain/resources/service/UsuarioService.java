@@ -17,6 +17,7 @@ import br.com.senai.sollaris.domain.resources.dtos.input.UsuarioLogin;
 import br.com.senai.sollaris.domain.resources.dtos.output.ReturnUsuarioDto;
 import br.com.senai.sollaris.domain.resources.dtos.output.ReturnUsuarioPut;
 import br.com.senai.sollaris.domain.resources.service.exceptions.ObjetoNaoEncontradoException;
+import br.com.senai.sollaris.domain.resources.service.exceptions.Usuario_EnderecoNaoEncontradoException;
 import br.com.senai.sollaris.domain.resources.service.validations.UsuarioServiceValidation;
 import lombok.RequiredArgsConstructor;
 
@@ -41,9 +42,17 @@ public class UsuarioService {
 		return usuarioRepository.findAll(page).map(ReturnUsuarioDto::new);
 	}
 		
-	public Usuario listarUsuario(Long id) {
+	public Usuario listarUsuario(Integer id) {
 		return usuarioRepository.findById(id)
 				.orElseThrow(() -> new ObjetoNaoEncontradoException("Usuário não encontrado")); 
+		
+	}
+	
+	//Utilizado em outra API!
+	public ResponseEntity<ReturnUsuarioDto> buscarUsuario_Endereco(Integer usuarioId, Integer empresaId) {
+		return ResponseEntity.ok(usuarioRepository.buscarUsuario_Endereco(usuarioId, empresaId)
+				.map(ReturnUsuarioDto::new)
+				.orElseThrow(() -> new Usuario_EnderecoNaoEncontradoException("Usuário e/ou endereço não encontrado, tente novamente")));
 		
 	}
 	
@@ -64,7 +73,7 @@ public class UsuarioService {
 	
 
 	@Transactional
-	public ResponseEntity<ReturnUsuarioPut> alterarUsuario(Long id, PutUsuarioDto usuarioDto) {
+	public ResponseEntity<ReturnUsuarioPut> alterarUsuario(Integer id, PutUsuarioDto usuarioDto) {
 		serviceValidation.validarEmail(usuarioDto);
 		Usuario usuario = listarUsuario(id);
 
@@ -74,7 +83,7 @@ public class UsuarioService {
 	}
 	
 	@Transactional
-	public ResponseEntity<Object> deletarUsuario(Long id) {
+	public ResponseEntity<Object> deletarUsuario(Integer id) {
 		if(usuarioRepository.existsById(id)) {
 			usuarioRepository.deleteById(id);
 			// eu deletei com sucesso mas não tenho nada para te devolver
@@ -90,5 +99,6 @@ public class UsuarioService {
 				.map(ReturnUsuarioDto::new)
 				.orElseThrow(() -> new ObjetoNaoEncontradoException("Email e/ou senha inválida, tente novamente!"))); 
 	}
+
 
 }

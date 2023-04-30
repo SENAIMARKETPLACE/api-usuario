@@ -33,7 +33,7 @@ import lombok.Setter;
 public class Usuario {
 	
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	private Integer id;
 	private String nome;
 	private String cpf;
 	private LocalDate dt_nascimento;
@@ -65,7 +65,7 @@ public class Usuario {
 		}
 
 	//metodo usado para atualizar um Usuário, Json Manipulável
-	public void atualizarInformacoes(Long id, PutUsuarioDto usuarioDto) {
+	public void atualizarInformacoes(Integer id, PutUsuarioDto usuarioDto) {
 		this.id = id;
 		
 		if (usuarioDto.getNome() != null) {

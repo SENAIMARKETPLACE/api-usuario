@@ -16,7 +16,7 @@ import lombok.Setter;
 @NoArgsConstructor
 
 public class ReturnUsuarioDto {
-	private Long id;
+	private Integer id;
 	private LocalDateTime data_requisicao = LocalDateTime.now();
 	private String nome;
 	private Generos genero;

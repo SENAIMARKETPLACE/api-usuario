@@ -30,7 +30,7 @@ public class Endereco {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	private Integer id;
 
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinColumn(name = "usuario_id", foreignKey = @ForeignKey(foreignKeyDefinition = "fk_endereco_usuario", name = "usuario_id"))

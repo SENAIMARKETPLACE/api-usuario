@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 import br.com.senai.sollaris.domain.Usuario;
 
 @Repository
-public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
+public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
 
 	Optional<Usuario> findByEmail(String email);
 
@@ -18,5 +18,9 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
 	
 	@Query("SELECT u from Usuario u WHERE u.email = :emailUser and u.senha = :senhaUser")
 	Optional<Usuario> login(@Param("emailUser") String emailUser, @Param("senhaUser") String senhaUser);
+	
+	@Query("SELECT u from Usuario u INNER JOIN u.enderecos e WHERE u.id = :usuario_id AND e.id = :empresa_id")
+	Optional<Usuario> buscarUsuario_Endereco(@Param("usuario_id") Integer usuarioId, 
+			@Param("empresa_id") Integer empresaId);
 
 }

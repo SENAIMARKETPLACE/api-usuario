@@ -14,7 +14,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @JsonInclude(value = Include.NON_NULL)
 public class ReturnEnderecoDto {
-	private Long id;
+	private Integer id;
 	private String cep;
 	private String logradouro;
 	private String numero;
