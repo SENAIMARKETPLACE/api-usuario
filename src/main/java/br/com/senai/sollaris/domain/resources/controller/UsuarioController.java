@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -34,20 +34,28 @@ import br.com.senai.sollaris.domain.resources.service.UsuarioService;
 
 @RestController
 @RequestMapping("api/users")
-@CrossOrigin("http://localhost:3000")
 public class UsuarioController {
 	
 	@Autowired
 	private UsuarioService usuarioService;
 	
 	@GetMapping
-	public ResponseEntity<Page<ReturnUsuarioDto>> listarUsuarios (Pageable page) {
+	public ResponseEntity<Page<ReturnUsuarioDto>> listarTodosUsuarios (Pageable page) {
 		return ResponseEntity.ok(usuarioService.listarUsuarios(page));
 	}
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<ReturnUsuarioDto> listarUsuarios (@PathVariable Long id) {
+	public ResponseEntity<ReturnUsuarioDto> listarUsuarios (@PathVariable Integer id) {
 		return ResponseEntity.ok(new ReturnUsuarioDto(usuarioService.listarUsuario(id)));
+	}
+	
+	//Utilizado na API de Compra para validar o Usuário e seu Endereço!
+	@GetMapping("/validate")
+	public ResponseEntity<ReturnUsuarioDto> validarUsuario_Endereco(
+			@RequestParam(name = "usuario", required = true) Integer usuarioId,
+			@RequestParam(name = "endereco", required = true) Integer empresaId) {
+		
+		return usuarioService.buscarUsuario_Endereco(usuarioId, empresaId);
 	}
 	
 	@PostMapping
@@ -61,13 +69,14 @@ public class UsuarioController {
 		return usuarioService.logarUsuario(usuario);
 	}
 	
+	
 	@PutMapping("/{id}")
-	public ResponseEntity<ReturnUsuarioPut> alterarUsuario(@PathVariable Long id, @RequestBody @Valid PutUsuarioDto usuarioDto) {
+	public ResponseEntity<ReturnUsuarioPut> alterarUsuario(@PathVariable Integer id, @RequestBody @Valid PutUsuarioDto usuarioDto) {
 		return usuarioService.alterarUsuario(id, usuarioDto);
 	}
 	
 	@DeleteMapping("/{id}")
-	public ResponseEntity<Object> deletarUsuarios (@PathVariable Long id){
+	public ResponseEntity<Object> deletarUsuarios (@PathVariable Integer id){
 		return usuarioService.deletarUsuario(id);
 	}
 	

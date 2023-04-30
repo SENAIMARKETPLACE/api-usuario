@@ -1,5 +1,7 @@
 package br.com.senai.sollaris.domain;
 
+import java.time.LocalDateTime;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -28,7 +30,7 @@ public class Endereco {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	private Integer id;
 
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinColumn(name = "usuario_id", foreignKey = @ForeignKey(foreignKeyDefinition = "fk_endereco_usuario", name = "usuario_id"))
@@ -41,6 +43,8 @@ public class Endereco {
 	private String bairro;
 	private String cidade;
 	private String complemento;
+	private LocalDateTime dt_registro;
+	private LocalDateTime dt_alteracao;
 
 	public Endereco(EnderecoDto enderecoDto, Usuario usuario) {
 		this.usuario = usuario;
@@ -51,6 +55,7 @@ public class Endereco {
 		this.bairro = enderecoDto.getEstado();
 		this.cidade = enderecoDto.getCidade();
 		this.complemento = enderecoDto.getComplemento();
+		this.dt_registro = LocalDateTime.now();
 	}
 	
 	//este método altera somente o endereço
@@ -62,6 +67,7 @@ public class Endereco {
 		this.bairro = enderecoDto.getEstado();
 		this.cidade = enderecoDto.getCidade();
 		this.complemento = enderecoDto.getComplemento();
+		this.dt_alteracao = LocalDateTime.now();
 		
 	}
 }

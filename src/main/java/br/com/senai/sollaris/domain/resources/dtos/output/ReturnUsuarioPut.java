@@ -16,13 +16,14 @@ public class ReturnUsuarioPut {
 	private String senha;
 	private String telefone;
 	private String img;
-	
+
 	public ReturnUsuarioPut(Usuario usuario) {
 		this.nome = usuario.getNome();
 		this.email = usuario.getEmail();
 		this.senha = usuario.getSenha();
 		this.telefone = usuario.getTelefone();
 		this.img = usuario.getImg();
+
 	}
 
 }

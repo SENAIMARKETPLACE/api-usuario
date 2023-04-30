@@ -1,7 +1,6 @@
 package br.com.senai.sollaris.domain.resources.dtos.input;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import lombok.AllArgsConstructor;
@@ -18,9 +17,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class EnderecoDto {
 	
-	@NotNull
-	private Long usuario_id;
-	
+
 	@NotBlank
 	@Size(min = 8 ,max = 8)
 	private String cep;
