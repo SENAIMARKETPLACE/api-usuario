@@ -21,6 +21,7 @@ import br.com.senai.sollaris.domain.resources.dtos.input.PutUsuarioDto;
 import br.com.senai.sollaris.domain.resources.dtos.input.UsuarioDto;
 import br.com.senai.sollaris.domain.resources.dtos.input.UsuarioLogin;
 import br.com.senai.sollaris.domain.resources.dtos.output.ReturnUsuarioDto;
+import br.com.senai.sollaris.domain.resources.dtos.output.ReturnUsuarioDto2;
 import br.com.senai.sollaris.domain.resources.dtos.output.ReturnUsuarioPut;
 import br.com.senai.sollaris.domain.resources.service.UsuarioService;
 
@@ -51,7 +52,7 @@ public class UsuarioController {
 	
 	//Utilizado na API de Compra para validar o Usuário e seu Endereço!
 	@GetMapping("/validate")
-	public ResponseEntity<ReturnUsuarioDto> validarUsuario_Endereco(
+	public ResponseEntity<ReturnUsuarioDto2> validarUsuario_Endereco(
 			@RequestParam(name = "usuario", required = true) Integer usuarioId,
 			@RequestParam(name = "endereco", required = true) Integer empresaId) {
 		

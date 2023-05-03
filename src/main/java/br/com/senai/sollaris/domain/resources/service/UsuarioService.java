@@ -15,6 +15,7 @@ import br.com.senai.sollaris.domain.resources.dtos.input.PutUsuarioDto;
 import br.com.senai.sollaris.domain.resources.dtos.input.UsuarioDto;
 import br.com.senai.sollaris.domain.resources.dtos.input.UsuarioLogin;
 import br.com.senai.sollaris.domain.resources.dtos.output.ReturnUsuarioDto;
+import br.com.senai.sollaris.domain.resources.dtos.output.ReturnUsuarioDto2;
 import br.com.senai.sollaris.domain.resources.dtos.output.ReturnUsuarioPut;
 import br.com.senai.sollaris.domain.resources.service.exceptions.ObjetoNaoEncontradoException;
 import br.com.senai.sollaris.domain.resources.service.exceptions.Usuario_EnderecoNaoEncontradoException;
@@ -49,9 +50,9 @@ public class UsuarioService {
 	}
 	
 	//Utilizado em outra API!
-	public ResponseEntity<ReturnUsuarioDto> buscarUsuario_Endereco(Integer usuarioId, Integer empresaId) {
+	public ResponseEntity<ReturnUsuarioDto2> buscarUsuario_Endereco(Integer usuarioId, Integer empresaId) {
 		return ResponseEntity.ok(usuarioRepository.buscarUsuario_Endereco(usuarioId, empresaId)
-				.map(ReturnUsuarioDto::new)
+				.map(ReturnUsuarioDto2::new)
 				.orElseThrow(() -> new Usuario_EnderecoNaoEncontradoException("Usuário e/ou endereço não encontrado, tente novamente")));
 		
 	}
