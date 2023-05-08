@@ -1,7 +1,10 @@
 package br.com.senai.sollaris.domain.resources.service;
 
 import java.net.URI;
+import java.util.ArrayList;
+import java.util.List;
 
+import org.springframework.core.env.Environment;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -9,6 +12,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import br.com.senai.sollaris.data.ProdutoFeign;
+import br.com.senai.sollaris.data.model.ReturnProdutoDto;
 import br.com.senai.sollaris.domain.Usuario;
 import br.com.senai.sollaris.domain.repository.UsuarioRepository;
 import br.com.senai.sollaris.domain.resources.dtos.input.PutUsuarioDto;
@@ -16,11 +21,14 @@ import br.com.senai.sollaris.domain.resources.dtos.input.UsuarioDto;
 import br.com.senai.sollaris.domain.resources.dtos.input.UsuarioLogin;
 import br.com.senai.sollaris.domain.resources.dtos.output.ReturnUsuarioDto;
 import br.com.senai.sollaris.domain.resources.dtos.output.ReturnUsuarioDto2;
+import br.com.senai.sollaris.domain.resources.dtos.output.ReturnUsuarioLogin;
 import br.com.senai.sollaris.domain.resources.dtos.output.ReturnUsuarioPut;
 import br.com.senai.sollaris.domain.resources.service.exceptions.ObjetoNaoEncontradoException;
 import br.com.senai.sollaris.domain.resources.service.exceptions.Usuario_EnderecoNaoEncontradoException;
 import br.com.senai.sollaris.domain.resources.service.validations.UsuarioServiceValidation;
+import feign.FeignException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 /*
  * ELE É A COZINHA
@@ -32,12 +40,15 @@ import lombok.RequiredArgsConstructor;
  * 
  */
 
+@Slf4j
 @RequiredArgsConstructor
 @Service
 public class UsuarioService {
+	private final Environment env;
 	
 	private final UsuarioRepository usuarioRepository;
 	private final UsuarioServiceValidation serviceValidation;
+	private final ProdutoFeign produtoFeign;
 	
 	public Page<ReturnUsuarioDto> listarUsuarios(Pageable page) {
 		return usuarioRepository.findAll(page).map(ReturnUsuarioDto::new);
@@ -95,10 +106,30 @@ public class UsuarioService {
 	}
 	
 	
-	public ResponseEntity<ReturnUsuarioDto> logarUsuario(UsuarioLogin usuario) {
-		return ResponseEntity.ok(usuarioRepository.login(usuario.getEmail(), usuario.getSenha())
-				.map(ReturnUsuarioDto::new)
-				.orElseThrow(() -> new ObjetoNaoEncontradoException("Email e/ou senha inválida, tente novamente!"))); 
+	public ResponseEntity<ReturnUsuarioLogin> logarUsuario(UsuarioLogin usuarioLogin, Pageable pageable) {
+		//Busca e Validação de Login
+		ReturnUsuarioDto usuario = usuarioRepository.login(usuarioLogin.getEmail(), usuarioLogin.getSenha())
+			.map(ReturnUsuarioDto::new)
+			.orElseThrow(() -> new ObjetoNaoEncontradoException("Email e/ou senha inválida, tente novamente!"));
+		
+		List<ReturnProdutoDto> produtos = new ArrayList<>();
+		
+		try {
+			log.info("USUARIO_SERVICE :::: Get Request On" + env.getProperty("local.server.port") + " port");
+			
+			for (int i = 0; i < usuario.getGruposDeInteresse().length; i++) {
+				Integer[] gruposDeInteresse = usuario.getGruposDeInteresse();
+				int categoria_id = gruposDeInteresse[i]; 
+				Page<ReturnProdutoDto> produtoDto = produtoFeign.listarProdutoPorCategoria(categoria_id, pageable).getBody();
+				
+				produtoDto.forEach(produto -> produtos.add(produto));
+			}
+			
+			return ResponseEntity.ok(new ReturnUsuarioLogin(usuario, produtos));
+			
+		} catch (FeignException e) {
+			throw new ObjetoNaoEncontradoException("Conexão com produtoFeign deu errado");
+		}
 	}
 
 

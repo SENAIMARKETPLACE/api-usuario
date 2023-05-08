@@ -5,6 +5,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,6 +23,7 @@ import br.com.senai.sollaris.domain.resources.dtos.input.UsuarioDto;
 import br.com.senai.sollaris.domain.resources.dtos.input.UsuarioLogin;
 import br.com.senai.sollaris.domain.resources.dtos.output.ReturnUsuarioDto;
 import br.com.senai.sollaris.domain.resources.dtos.output.ReturnUsuarioDto2;
+import br.com.senai.sollaris.domain.resources.dtos.output.ReturnUsuarioLogin;
 import br.com.senai.sollaris.domain.resources.dtos.output.ReturnUsuarioPut;
 import br.com.senai.sollaris.domain.resources.service.UsuarioService;
 
@@ -66,8 +68,9 @@ public class UsuarioController {
 	}
 	
 	@PostMapping("/login")
-	public ResponseEntity<ReturnUsuarioDto> logarUsuario(@RequestBody UsuarioLogin usuario) {
-		return usuarioService.logarUsuario(usuario);
+	public ResponseEntity<ReturnUsuarioLogin> logarUsuario(@RequestBody UsuarioLogin usuario, 
+			@PageableDefault(size = 3) Pageable pageable) {
+		return usuarioService.logarUsuario(usuario, pageable);
 	}
 	
 	
