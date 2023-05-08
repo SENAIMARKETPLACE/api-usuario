@@ -1,7 +1,10 @@
 package br.com.senai.sollaris.domain.resources.dtos.output;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import br.com.senai.sollaris.domain.Usuario;
 import br.com.senai.sollaris.domain.enums.Generos;
@@ -17,13 +20,16 @@ import lombok.Setter;
 
 public class ReturnUsuarioDto {
 	private Integer id;
+	@JsonFormat(pattern = "dd/MM/yyyy HH:mm:ss")
 	private LocalDateTime data_requisicao = LocalDateTime.now();
 	private String nome;
 	private String cpf;
 	private String email;
-	private String senha;
+	@JsonFormat(pattern = "dd/MM/yyyy")
+	private LocalDate data_nascimento;
 	private Generos genero;
 	private String img;
+	private Integer[] gruposDeInteresse;
 	private List<ReturnEnderecoDto> enderecos;
 	
 	public ReturnUsuarioDto(Usuario usuario) {
@@ -33,9 +39,11 @@ public class ReturnUsuarioDto {
 		this.img = usuario.getImg();
 		this.cpf = usuario.getCpf();
 		this.email = usuario.getEmail();
-		this.senha = usuario.getSenha();
+		this.data_nascimento = usuario.getDt_nascimento();
+		this.gruposDeInteresse = usuario.devolverGruposDeInteresse(usuario.getGrupos_interesses());
 		this.enderecos = usuario.getEnderecos().stream().map(endereco -> new ReturnEnderecoDto(endereco)).toList();
 	}
+	
 }
 	
 
