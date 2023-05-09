@@ -1,7 +1,8 @@
 package br.com.senai.sollaris.data;
 
+import java.util.List;
+
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,5 +14,5 @@ import br.com.senai.sollaris.data.model.ReturnProdutoDto;
 public interface ProdutoFeign {
 	
 	@GetMapping("api/products/categories/{id}")
-	public ResponseEntity<Page<ReturnProdutoDto>> listarProdutoPorCategoria(@PathVariable Integer id, Pageable pageable);
+	public ResponseEntity<List<ReturnProdutoDto>> listarProdutoPorCategoria(@PathVariable Integer id, Pageable pageable);
 }

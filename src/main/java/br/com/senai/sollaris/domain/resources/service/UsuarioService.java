@@ -23,6 +23,8 @@ import br.com.senai.sollaris.domain.resources.dtos.output.ReturnUsuarioDto;
 import br.com.senai.sollaris.domain.resources.dtos.output.ReturnUsuarioDto2;
 import br.com.senai.sollaris.domain.resources.dtos.output.ReturnUsuarioLogin;
 import br.com.senai.sollaris.domain.resources.dtos.output.ReturnUsuarioPut;
+import br.com.senai.sollaris.domain.resources.service.exceptions.CategoriaNaoEncontradoException;
+import br.com.senai.sollaris.domain.resources.service.exceptions.ConsumoDeApiException;
 import br.com.senai.sollaris.domain.resources.service.exceptions.ObjetoNaoEncontradoException;
 import br.com.senai.sollaris.domain.resources.service.exceptions.Usuario_EnderecoNaoEncontradoException;
 import br.com.senai.sollaris.domain.resources.service.validations.UsuarioServiceValidation;
@@ -120,7 +122,11 @@ public class UsuarioService {
 			for (int i = 0; i < usuario.getGruposDeInteresse().length; i++) {
 				Integer[] gruposDeInteresse = usuario.getGruposDeInteresse();
 				int categoria_id = gruposDeInteresse[i]; 
-				Page<ReturnProdutoDto> produtoDto = produtoFeign.listarProdutoPorCategoria(categoria_id, pageable).getBody();
+				List<ReturnProdutoDto> produtoDto = produtoFeign.listarProdutoPorCategoria(categoria_id, pageable).getBody();
+				
+				if (produtoDto.isEmpty()) {
+					throw new CategoriaNaoEncontradoException("Essa categoria não existe ou não há nenhum produto vinculado à esta categoria");
+				}
 				
 				produtoDto.forEach(produto -> produtos.add(produto));
 			}
@@ -128,8 +134,10 @@ public class UsuarioService {
 			return ResponseEntity.ok(new ReturnUsuarioLogin(usuario, produtos));
 			
 		} catch (FeignException e) {
-			throw new ObjetoNaoEncontradoException("Conexão com produtoFeign deu errado");
+			throw new ConsumoDeApiException("");
 		}
+		
+		
 	}
 
 

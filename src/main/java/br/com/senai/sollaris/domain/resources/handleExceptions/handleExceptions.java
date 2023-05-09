@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import br.com.senai.sollaris.domain.resources.service.exceptions.CategoriaNaoEncontradoException;
+import br.com.senai.sollaris.domain.resources.service.exceptions.ConsumoDeApiException;
 import br.com.senai.sollaris.domain.resources.service.exceptions.CpfEmUsoException;
 import br.com.senai.sollaris.domain.resources.service.exceptions.EmailEmUsoException;
 import br.com.senai.sollaris.domain.resources.service.exceptions.ObjetoNaoEncontradoException;
@@ -96,6 +98,24 @@ public class handleExceptions extends ResponseEntityExceptionHandler{
 	public ResponseEntity<Object> ObjetoNaoEncontrado(Usuario_EnderecoNaoEncontradoException ex, 
 			HttpServletRequest requestPath, WebRequest request){
 		HttpStatus status = HttpStatus.BAD_REQUEST;
+		RespostaException resposta = new RespostaException(ex.getMessage(), status.value(), requestPath);
+		
+		return handleExceptionInternal(ex, resposta, new HttpHeaders(), status, request);	
+	}
+	
+	@ExceptionHandler(CategoriaNaoEncontradoException.class)
+	public ResponseEntity<Object> ObjetoNaoEncontrado(CategoriaNaoEncontradoException ex, 
+			HttpServletRequest requestPath, WebRequest request){
+		HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
+		RespostaException resposta = new RespostaException(ex.getMessage(), status.value(), requestPath);
+		
+		return handleExceptionInternal(ex, resposta, new HttpHeaders(), status, request);	
+	}
+	
+	@ExceptionHandler(ConsumoDeApiException.class)
+	public ResponseEntity<Object> ObjetoNaoEncontrado(ConsumoDeApiException ex, 
+			HttpServletRequest requestPath, WebRequest request){
+		HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
 		RespostaException resposta = new RespostaException(ex.getMessage(), status.value(), requestPath);
 		
 		return handleExceptionInternal(ex, resposta, new HttpHeaders(), status, request);	
