@@ -2,14 +2,16 @@ package br.com.senai.sollaris.data.model;
 
 import java.util.List;
 
-import lombok.AllArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 @RequiredArgsConstructor
 @Getter @Setter
+@JsonInclude(value = Include.NON_NULL)
 public class ReturnProdutoDto {
 	private Long id;
 	private String nome;

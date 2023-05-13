@@ -134,7 +134,7 @@ public class UsuarioService {
 			return ResponseEntity.ok(new ReturnUsuarioLogin(usuario, produtos));
 			
 		} catch (FeignException e) {
-			throw new ConsumoDeApiException("");
+			throw new ConsumoDeApiException("Não há nenhum produto relacionado ao grupo de interesse do usuário");
 		}
 		
 		
