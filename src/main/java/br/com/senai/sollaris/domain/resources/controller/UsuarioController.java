@@ -68,7 +68,7 @@ public class UsuarioController {
 	}
 	
 	@PostMapping("/login")
-	public ResponseEntity<ReturnUsuarioLogin> logarUsuario(@RequestBody UsuarioLogin usuario, 
+	public ResponseEntity<ReturnUsuarioLogin> logarUsuario(@RequestBody @Valid UsuarioLogin usuario, 
 			@PageableDefault(size = 3) Pageable pageable) {
 		return usuarioService.logarUsuario(usuario, pageable);
 	}
