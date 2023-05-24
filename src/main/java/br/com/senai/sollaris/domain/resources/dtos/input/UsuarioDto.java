@@ -52,7 +52,7 @@ public class UsuarioDto {
 	@NotBlank
 	private String img;
 	@NotNull
-	private Integer[] grupos_interesses;
+	private String[] grupos_interesses;
 	@Valid
 	@NotNull
 	private EnderecoDto endereco;

@@ -111,27 +111,20 @@ public class Usuario {
 	}
 	
 	//Ele formata o Array recebido de UsuarioDto para poder salvar no banco
-	private String formatarGrupoTexto(Integer[] grupos_interesses2) {
+	private String formatarGrupoTexto(String[] string) {
 		String grupos_interesses = "";
 		
-		for (Integer integer : grupos_interesses2) {
-			grupos_interesses += String.valueOf(integer);
+		for (String categoria : string) {
+			grupos_interesses += categoria;
 			grupos_interesses += ",";
 		}
 		return grupos_interesses;
 	}
 	
-	public Integer[] devolverGruposDeInteresse(String string) {
+	public String[] devolverGruposDeInteresse(String string) {
 		String[] gruposInteresses = string.split(",");
-		Integer[] returnGruposInteresses = new Integer[gruposInteresses.length];
 		
-		int contador = 0;
-		for (String string2 : gruposInteresses) {
-			returnGruposInteresses[contador] = Integer.parseInt(string2);
-			contador++;
-		}
-		
-		return returnGruposInteresses;
+		return gruposInteresses;
 		
 	}
 

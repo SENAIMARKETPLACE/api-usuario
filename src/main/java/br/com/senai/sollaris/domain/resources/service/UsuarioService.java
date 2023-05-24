@@ -120,8 +120,8 @@ public class UsuarioService {
 			log.info("USUARIO_SERVICE :::: Get Request On" + env.getProperty("local.server.port") + " port");
 			
 			for (int i = 0; i < usuario.getGruposDeInteresse().length; i++) {
-				Integer[] gruposDeInteresse = usuario.getGruposDeInteresse();
-				int categoria_id = gruposDeInteresse[i]; 
+				String[] gruposDeInteresse = usuario.getGruposDeInteresse();
+				int categoria_id = Integer.parseInt(gruposDeInteresse[i]); 
 				List<ReturnProdutoDto> produtoDto = produtoFeign.listarProdutoPorCategoria(categoria_id, pageable).getBody();
 				
 				if (produtoDto.isEmpty()) {

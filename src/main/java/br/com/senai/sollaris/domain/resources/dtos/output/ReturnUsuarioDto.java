@@ -29,7 +29,7 @@ public class ReturnUsuarioDto {
 	private LocalDate data_nascimento;
 	private Generos genero;
 	private String img;
-	private Integer[] gruposDeInteresse;
+	private String[] gruposDeInteresse;
 	private List<ReturnEnderecoDto> enderecos;
 	
 	public ReturnUsuarioDto(Usuario usuario) {
