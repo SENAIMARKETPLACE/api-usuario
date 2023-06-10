@@ -15,6 +15,7 @@ import javax.persistence.Table;
 
 import br.com.senai.sollaris.domain.resources.dtos.input.EnderecoDto;
 import br.com.senai.sollaris.domain.resources.dtos.input.PutEnderecoDto;
+import br.com.senai.sollaris.domain.resources.dtos.input.PutEnderecoUsuarioDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -60,6 +61,21 @@ public class Endereco {
 	
 	//este método altera somente o endereço
 	public void alterar(PutEnderecoDto enderecoDto) {
+		this.cep = enderecoDto.getCep();
+		this.logradouro = enderecoDto.getLogradouro();
+		this.numero = enderecoDto.getNumero();
+		this.estado = enderecoDto.getEstado();
+		this.bairro = enderecoDto.getEstado();
+		this.cidade = enderecoDto.getCidade();
+		this.complemento = enderecoDto.getComplemento();
+		this.dt_alteracao = LocalDateTime.now();
+		
+	}
+	
+	//usado para alterar o endereço de um usuário
+	public void alterar(PutEnderecoUsuarioDto enderecoDto, Usuario usuario) {
+		this.usuario = usuario;
+		
 		this.cep = enderecoDto.getCep();
 		this.logradouro = enderecoDto.getLogradouro();
 		this.numero = enderecoDto.getNumero();
