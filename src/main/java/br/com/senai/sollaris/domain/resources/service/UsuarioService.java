@@ -87,7 +87,7 @@ public class UsuarioService {
 	
 
 	@Transactional
-	public ResponseEntity<ReturnUsuarioPut> alterarUsuario(Integer id, PutUsuarioDto usuarioDto) {
+	public ResponseEntity<ReturnUsuarioPut> alterarDadosPessoais(Integer id, PutUsuarioDto usuarioDto) {
 		serviceValidation.validarEmail(usuarioDto);
 		Usuario usuario = listarUsuario(id);
 

@@ -75,9 +75,10 @@ public class UsuarioController {
 	
 	
 	@PutMapping("/{id}")
-	public ResponseEntity<ReturnUsuarioPut> alterarUsuario(@PathVariable Integer id, @RequestBody @Valid PutUsuarioDto usuarioDto) {
-		return usuarioService.alterarUsuario(id, usuarioDto);
+	public ResponseEntity<ReturnUsuarioPut> alterarDadosPessoais(@PathVariable Integer id, @RequestBody @Valid PutUsuarioDto usuarioDto) {
+		return usuarioService.alterarDadosPessoais(id, usuarioDto);
 	}
+	
 	
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Object> deletarUsuarios (@PathVariable Integer id){

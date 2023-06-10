@@ -77,11 +77,6 @@ public class Usuario {
 			this.email = usuarioDto.getEmail();
 			this.dt_alteracao = LocalDateTime.now();
 		}
-		
-		if (usuarioDto.getSenha() != null) {
-			this.senha = usuarioDto.getSenha();
-			this.dt_alteracao = LocalDateTime.now();
-		}
 			
 		
 		if (usuarioDto.getTelefone() != null) {
@@ -94,13 +89,33 @@ public class Usuario {
 			this.img = usuarioDto.getImg();
 			this.dt_alteracao = LocalDateTime.now();
 		}
+		
+		if (usuarioDto.getGenero() != null) {
+			this.genero = usuarioDto.getGenero();
+			this.dt_alteracao = LocalDateTime.now();
+		}
+		
+		if (usuarioDto.getData_nascimento() != null) {
+			this.dt_nascimento = usuarioDto.getData_nascimento();
+			this.dt_alteracao = LocalDateTime.now();
+		}
+		
+		if (usuarioDto.getCpf() != null) {
+			this.cpf = usuarioDto.getCpf();
+			this.dt_alteracao = LocalDateTime.now();
+		}
+		
+		if (usuarioDto.getGrupo_de_interesses() != null) {
+			String gruposInteresses = this.formatarGrupoTexto(usuarioDto.getGrupo_de_interesses());
+			this.grupos_interesses = gruposInteresses;
+			this.dt_alteracao = LocalDateTime.now();
+		}
 	}
 	
 	//Construtor usado no método validarEmail em UsuarioService
 	public Usuario(PutUsuarioDto usuarioDto) {
 		this.nome = usuarioDto.getNome();
 		this.email = usuarioDto.getEmail();
-		this.senha = usuarioDto.getSenha();
 		this.telefone = usuarioDto.getTelefone();
 	}
 
