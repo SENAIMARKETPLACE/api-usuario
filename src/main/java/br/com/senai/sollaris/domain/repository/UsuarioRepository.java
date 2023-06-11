@@ -16,11 +16,15 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
 
 	Optional<Usuario> findByCpf(String cpf);
 	
+	Optional<Usuario> findBySenha(String senha_antiga);
+	
 	@Query("SELECT u from Usuario u WHERE u.email = :emailUser and u.senha = :senhaUser")
 	Optional<Usuario> login(@Param("emailUser") String emailUser, @Param("senhaUser") String senhaUser);
 	
 	@Query("SELECT u from Usuario u INNER JOIN u.enderecos e WHERE u.id = :usuario_id AND e.id = :empresa_id")
 	Optional<Usuario> buscarUsuario_Endereco(@Param("usuario_id") Integer usuarioId, 
 			@Param("empresa_id") Integer empresaId);
+
+	
 
 }

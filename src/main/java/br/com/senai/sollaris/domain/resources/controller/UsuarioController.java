@@ -21,6 +21,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import br.com.senai.sollaris.domain.resources.dtos.input.PutUsuarioDto;
 import br.com.senai.sollaris.domain.resources.dtos.input.UsuarioDto;
 import br.com.senai.sollaris.domain.resources.dtos.input.UsuarioLogin;
+import br.com.senai.sollaris.domain.resources.dtos.input.UsuarioSenhaDto;
 import br.com.senai.sollaris.domain.resources.dtos.output.ReturnUsuarioDto;
 import br.com.senai.sollaris.domain.resources.dtos.output.ReturnUsuarioDto2;
 import br.com.senai.sollaris.domain.resources.dtos.output.ReturnUsuarioLogin;
@@ -79,6 +80,10 @@ public class UsuarioController {
 		return usuarioService.alterarDadosPessoais(id, usuarioDto);
 	}
 	
+	@PutMapping("/password")
+	public ResponseEntity<ReturnUsuarioDto> alterarSenha(@RequestBody @Valid UsuarioSenhaDto dto) {
+		return usuarioService.alterarSenha(dto);
+	}
 	
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Object> deletarUsuarios (@PathVariable Integer id){

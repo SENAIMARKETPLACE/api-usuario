@@ -4,6 +4,8 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.core.env.Environment;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -19,13 +21,16 @@ import br.com.senai.sollaris.domain.repository.UsuarioRepository;
 import br.com.senai.sollaris.domain.resources.dtos.input.PutUsuarioDto;
 import br.com.senai.sollaris.domain.resources.dtos.input.UsuarioDto;
 import br.com.senai.sollaris.domain.resources.dtos.input.UsuarioLogin;
+import br.com.senai.sollaris.domain.resources.dtos.input.UsuarioSenhaDto;
 import br.com.senai.sollaris.domain.resources.dtos.output.ReturnUsuarioDto;
 import br.com.senai.sollaris.domain.resources.dtos.output.ReturnUsuarioDto2;
 import br.com.senai.sollaris.domain.resources.dtos.output.ReturnUsuarioLogin;
 import br.com.senai.sollaris.domain.resources.dtos.output.ReturnUsuarioPut;
 import br.com.senai.sollaris.domain.resources.service.exceptions.CategoriaNaoEncontradoException;
 import br.com.senai.sollaris.domain.resources.service.exceptions.ConsumoDeApiException;
+import br.com.senai.sollaris.domain.resources.service.exceptions.DadosInvalidoException;
 import br.com.senai.sollaris.domain.resources.service.exceptions.ObjetoNaoEncontradoException;
+import br.com.senai.sollaris.domain.resources.service.exceptions.SenhaNaoEncontradaException;
 import br.com.senai.sollaris.domain.resources.service.exceptions.Usuario_EnderecoNaoEncontradoException;
 import br.com.senai.sollaris.domain.resources.service.validations.UsuarioServiceValidation;
 import feign.FeignException;
@@ -97,6 +102,24 @@ public class UsuarioService {
 	}
 	
 	@Transactional
+	public ResponseEntity<ReturnUsuarioDto> alterarSenha(UsuarioSenhaDto dto) {
+		Usuario usuario = listarUsuario(dto.getUsuario_id());
+		
+		//Validar se a senha antiga bate no banco
+		if (!usuario.getSenha().equals(dto.getSenha_antiga()))
+			throw new SenhaNaoEncontradaException("A senha antiga está incorreta, tente novamente");
+		
+		//Valida se as senhas são as mesmas
+		if (usuario.getSenha().equals(dto.getSenha_nova()))
+			throw new DadosInvalidoException("A senha antiga e a senha atual são as mesmas");
+		
+		usuario.setSenha(dto.getSenha_nova());
+		
+		return ResponseEntity.ok(new ReturnUsuarioDto(usuario));
+		
+	}
+	
+	@Transactional
 	public ResponseEntity<Object> deletarUsuario(Integer id) {
 		if(usuarioRepository.existsById(id)) {
 			usuarioRepository.deleteById(id);
@@ -139,6 +162,4 @@ public class UsuarioService {
 		
 		
 	}
-
-
 }
