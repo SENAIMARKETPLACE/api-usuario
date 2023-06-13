@@ -17,13 +17,13 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PutUsuarioDto {
+	private Integer usuario_id;
 	
 	private String nome;
 	
 	@Email
 	private String email;
 	
-	@Size(min = 11, max = 11)
 	private String telefone;
 	private String img;
 	private String cpf;

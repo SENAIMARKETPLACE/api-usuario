@@ -92,11 +92,11 @@ public class UsuarioService {
 	
 
 	@Transactional
-	public ResponseEntity<ReturnUsuarioPut> alterarDadosPessoais(Integer id, PutUsuarioDto usuarioDto) {
-		serviceValidation.validarEmail(usuarioDto);
-		Usuario usuario = listarUsuario(id);
+	public ResponseEntity<ReturnUsuarioPut> alterarDadosPessoais(PutUsuarioDto usuarioDto) {
+		//serviceValidation.validarEmail(usuarioDto);
+		Usuario usuario = listarUsuario(usuarioDto.getUsuario_id());
 
-		usuario.atualizarInformacoes(id, usuarioDto);
+		usuario.atualizarInformacoes(usuarioDto.getUsuario_id(), usuarioDto);
 		
 		return ResponseEntity.ok(new ReturnUsuarioPut(usuario));
 	}

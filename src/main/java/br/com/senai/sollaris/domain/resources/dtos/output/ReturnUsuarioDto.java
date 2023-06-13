@@ -2,6 +2,7 @@ package br.com.senai.sollaris.domain.resources.dtos.output;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -25,8 +26,9 @@ public class ReturnUsuarioDto {
 	private String nome;
 	private String cpf;
 	private String email;
-	@JsonFormat(pattern = "dd/MM/yyyy")
-	private LocalDate data_nascimento;
+	private String telefone;
+
+	private String data_nascimento;
 	private Generos genero;
 	private String img;
 	private String[] gruposDeInteresse;
@@ -39,7 +41,8 @@ public class ReturnUsuarioDto {
 		this.img = usuario.getImg();
 		this.cpf = usuario.getCpf();
 		this.email = usuario.getEmail();
-		this.data_nascimento = usuario.getDt_nascimento();
+		this.data_nascimento = usuario.getDt_nascimento().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+		this.telefone = usuario.getTelefone();
 		this.gruposDeInteresse = usuario.devolverGruposDeInteresse(usuario.getGrupos_interesses());
 		this.enderecos = usuario.getEnderecos().stream().map(endereco -> new ReturnEnderecoDto(endereco)).toList();
 	}

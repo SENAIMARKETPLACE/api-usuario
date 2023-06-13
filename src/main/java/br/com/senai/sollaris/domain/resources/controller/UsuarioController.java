@@ -75,9 +75,9 @@ public class UsuarioController {
 	}
 	
 	
-	@PutMapping("/{id}")
-	public ResponseEntity<ReturnUsuarioPut> alterarDadosPessoais(@PathVariable Integer id, @RequestBody @Valid PutUsuarioDto usuarioDto) {
-		return usuarioService.alterarDadosPessoais(id, usuarioDto);
+	@PutMapping()
+	public ResponseEntity<ReturnUsuarioPut> alterarDadosPessoais(@RequestBody @Valid PutUsuarioDto usuarioDto) {
+		return usuarioService.alterarDadosPessoais(usuarioDto);
 	}
 	
 	@PutMapping("/password")
